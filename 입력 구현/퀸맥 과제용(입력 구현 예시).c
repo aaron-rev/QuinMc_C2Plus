@@ -8,7 +8,7 @@ int main()
 	fp = fopen("input_minterm.txt", "r");
 	if(fp == NULL)
 	{
-		printf("ÆÄÀÏÀÌ ¿­¸®Áö ¾Ê¾Ò½À´Ï´Ù.\n");
+		printf("íŒŒì¼ì´ ì—´ë¦¬ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.\n");
 		return 1;
 	}
 	
