@@ -1,0 +1,35 @@
+#include <iostream>
+#include <fstream> // 파일 입출력할 때 쓰임 - 입력을 파일로 받을 거라서 필요함
+
+using namespace std;
+
+int input() { //굳이 분리를 해야 되나 싶긴 하지만..
+	int count = -1, len, mc = 0; //mc=Minterm Count
+	char line[100];
+	ifstream fin("input_minterm.txt"); //파일 열기 (없으면 생성)
+	if (!fin.is_open())
+		cout << "FAILURE" << endl;
+	while (!fin.eof())
+	{
+		fin.getline(line, sizeof(line));
+		if (line[0] == 'm')
+			mc++;
+		if (count == -1)
+			len = atoi(line);
+		count++;
+	}
+	fin.close();
+	return len;
+}
+
+void output() {
+	
+}
+
+int main() {
+	int count = -1, len, mc = 0;
+	char line[100];
+	ifstream fin;
+	len=input();
+  
+  (후략)
