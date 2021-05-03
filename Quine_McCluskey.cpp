@@ -25,9 +25,15 @@ int main()
 	}
 	fin.close();
 	char** column = new char* [count];
+	char** real_column = new char* [count];
+	char** prime = new char* [count];
 	char** true_minterm = new char* [mc];
 	for (int i = 0; i < count; i++)
+	{
 		column[i] = new char[len + 1];
+		real_column[i] = new char[len + 1];
+		prime[i] = new char[len + 1];
+	}
 	for (int i = 0; i < mc; i++)
 		true_minterm[i] = new char[len + 1];
 	int c_row = 0, t_row = 0, w = 0;
@@ -74,6 +80,49 @@ int main()
 		for (int j = 0; j < len + 1; j++)
 		{
 			cout << true_minterm[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+	int u = 0;
+	for (int i = 0; i < count; i++)
+	{
+		int index = 0;
+		int Hamming_dis = 0;
+		for (int j = 0; j+i < count; j++)
+		{
+			int w = 0;
+			for (w = 0; w < len+1; w++)
+			{
+				if (column[i][w] != column[i + j][w])
+				{
+					Hamming_dis++;
+					index = w;
+				}
+				if (Hamming_dis > 1)
+				{
+					index = 0;
+				}
+			}
+			if (Hamming_dis == 1)
+			{
+				for (int w = 0; w < len + 1; w++)
+				{
+					real_column[u][w] = column[i][w];
+					if (w == index)
+					{
+						real_column[u][w] = '-';
+					}
+				}
+				u++;
+			}
+		}
+	}
+	for (int i = 0; i < u; i++)
+	{
+		for (int j = 0; j < len + 1; j++)
+		{
+			cout << real_column[i][j];
 		}
 		cout << endl;
 	}
