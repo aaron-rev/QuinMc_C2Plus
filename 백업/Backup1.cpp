@@ -13,10 +13,9 @@ private:
 	char mark;   //m, d 구분
 
 public:
-
-	int numberOne = 0;
-	char* number = NULL;
+	char* number = nullptr;
 	bool check = false;     //겹치는 부분 계산 했을 경우 true로 변환
+	int numberOne = 0;
 
 	void SetLength(int len)
 	{
@@ -28,7 +27,7 @@ public:
 	{
 		mark = c;
 	}
-	
+
 	void CheckNumberOne(int len)
 	{
 		int cnt = 0;
@@ -69,6 +68,7 @@ int main()
 	QM* column2 = new QM[count];
 	QM* true_minterm = new QM[mc];
 
+	/* 각 칼럼 요소들의 비트수 저장 */
 	for (int i = 0; i < count; i++)
 	{
 		column1[i].SetLength(len);
@@ -79,27 +79,28 @@ int main()
 		true_minterm[i].SetLength(len);
 	}
 
+	/* 파일로부터 값을 입력 받기 */
 	int c_row = 0, t_row = 0, w = 0;
 	fin.open("input_minterm.txt");
 	while (!fin.eof())
 	{
 		fin.getline(line, sizeof(line));
 
-		if (line[0] == 'm')
+		if (line[0] == 'm')  //첫 글자가 m인 경우
 		{
 			w = 0;
-			column1[c_row].SetMark('m');
+			column1[c_row].SetMark('m'); 
 
 			for (int i = 2; line[i] != '\0'; i++, w++)
 			{
 				column1[c_row].number[w] = line[i];
-				true_minterm[t_row].number[w] = line[i];
+				true_minterm[t_row].number[w] = line[i];  //배열에 따로 저장
 			}
 			t_row++;
 			c_row++;
 		}
 
-		else if (line[0] == 'd')
+		else if (line[0] == 'd')   //첫 글자가 d인 경우
 		{
 			w = 0;
 			column1[c_row].SetMark('d');
@@ -114,6 +115,7 @@ int main()
 	}
 	fin.close();
 
+	/* 이 밑으로는 확인용 */
 	for (int i = 0; i < count; i++)
 	{
 		for (int j = 0; j < len; j++)
@@ -132,6 +134,14 @@ int main()
 			cout << true_minterm[i].number[j];
 		}
 		cout << endl;
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < count; i++)
+	{
+		column1[i].CheckNumberOne(len);
+		cout << column1[i].numberOne << endl;
 	}
 
 	delete[] column1;
