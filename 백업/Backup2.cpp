@@ -165,7 +165,7 @@ int main()
 }
 
 /* 해밍 디스턴스가 1인지 체크해주는 함수(디버깅 안 했음) */
-int CheckHammingDistanceOne(QM& qm1, QM& qm2, int length)
+bool CheckHammingDistanceOne(QM& qm1, QM& qm2, int length)
 {
 	int HammingDistance = 0;
 
