@@ -130,31 +130,35 @@ int main() {
 		}
 	}
 	//
-	//Column II
-	
 	//새 Column을 출력하기 전, prime implicant를 별도의 prime 배열로 옮겨준다. real_column[i]는 Column 2->3 과정에서 쓰니까 백업 안해도 됨
+	//내가 할 일: 바로 윗줄에 써있음
+	int p = 0; //p=prime implicant의 갯수
 	for (i = 0; i < count; i++) {
 		if (usage[i] == 0) {
 			for (j = 0; j < len + 1; j++)
-				prime[i][j] = real_column[i][j];
+				prime[i][j] = column[i][j];
+			p++;
 		}
 	}
-	/* //prime implicant가 제대로 구현되는지 확인하려고 써놓음. 확인 후 지울 예정.
+
+	//prime implicant가 제대로 구현되는지 확인하려고 써놓음. 확인 후 지울 예정.
 	std::cout << endl << "Current Situation" << endl;
 	for (i = 0; i < p; i++) {
 		for (j = 0; j < len + 1; j++)
-			cout << prime[i][j];
+			cout << prime[i][j]; //문제점) 이 부분이 아무것도 나오지 않음
 		cout << endl;
 	}
-	*/
 	
-	/*
-	real_column을 전부 지우기 - Column II의 내용을 덮어 쓰기 위한 빌드업 ->생각해보니 Column II를 그대로 쓸 건데 굳이 이럴 이유가?
-	for (i = 0; i < p; i++) {
+	for(i = 0; i < count; i++)
+		usage[i] = 0;
+
+	//column을 전부 지우기 - Column II의 내용을 Column III에 덮어 쓰기 위한 빌드업 (Column을 두 개만 쓰기 위함)
+	for (i = 0; i < u; i++) {
 		for (j = 0; j < len+1; j++)
-			real_column[i][j]='\0'; //배열 내용을 지우는 방법
-	}
-	*/
+			column[i][j]='\0'; //배열 내용을 지우는 방법
+	} //비워진 것 확인됨
+	
+	//Column II
 	/*
 	std::cout<<endl<<"Column II"<<endl;
 	int q=0; //Column II의 항 개수를 세려는 것이므로 새로 상수를 정의함
