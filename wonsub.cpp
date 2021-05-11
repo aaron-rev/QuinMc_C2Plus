@@ -117,10 +117,10 @@ int main() {
 			}
 			if (hamm == 1) {
 				for (int w = 0; w < len + 1; w++) {
-					real_column[p][w] = column[i][w];
+					real_column[u][w] = column[i][w];
 					if (w == index)
-						real_column[p][w] = '-'; //ex) 0100과 0101일 경우, '010_'를 column에 더한다 - 다음 column으로 넘길 때 이것만 남기고 전부 지울 거임
-					cout << real_column[p][w];
+						real_column[u][w] = '-'; //ex) 0100과 0101일 경우, '010_'를 column에 더한다 - 다음 column으로 넘길 때 이것만 남기고 전부 지울 거임
+					cout << real_column[u][w];
 				}
 				usage[h]++;
 				usage[i]++;
