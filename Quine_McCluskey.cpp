@@ -109,7 +109,7 @@ void column1(char** real_column, char** column, int len, int count)
 				}
 				if (Hamming_dis > 1)
 				{
-					index = 0;
+					break;
 				}
 			}
 			if (Hamming_dis == 1)
