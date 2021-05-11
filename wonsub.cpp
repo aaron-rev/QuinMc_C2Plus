@@ -136,7 +136,7 @@ int main() {
 	for (i = 0; i < count; i++) {
 		if (usage[i] == 0) {
 			for (j = 0; j < len + 1; j++)
-				prime[i][j] = column[i][j];
+				prime[p][j] = column[i][j];
 			p++;
 		}
 	}
@@ -144,7 +144,7 @@ int main() {
 	//prime implicant가 제대로 구현되는지 확인하려고 써놓음. 확인 후 지울 예정.
 	std::cout << endl << "Current Situation" << endl;
 	for (i = 0; i < p; i++) {
-		for (j = 0; j < len + 1; j++)
+		for (j = 0; j < len + 1; j++) //제대로 짰으면 '1010' 이 출력되어야 함
 			cout << prime[i][j]; //문제점) 이 부분이 아무것도 나오지 않음
 		cout << endl;
 	}
