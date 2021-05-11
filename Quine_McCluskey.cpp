@@ -4,6 +4,8 @@
 
 using namespace std;
 
+void column1(char**, char**, int, int);
+
 int main()
 {
 	int count = -1, len, mc = 0;
@@ -84,15 +86,21 @@ int main()
 		cout << endl;
 	}
 	cout << endl;
+	column1(real_column, column, len, count);
+
+}
+
+void column1(char** real_column, char** column, int len, int count)
+{
 	int u = 0;
 	for (int i = 0; i < count; i++)
 	{
 		int index = 0;
-		int Hamming_dis = 0;
-		for (int j = 0; j+i < count; j++)
+		for (int j = 1; j + i < count; j++)
 		{
+			int Hamming_dis = 0;
 			int w = 0;
-			for (w = 0; w < len+1; w++)
+			for (w = 0; w < len + 1; w++)
 			{
 				if (column[i][w] != column[i + j][w])
 				{
@@ -106,12 +114,12 @@ int main()
 			}
 			if (Hamming_dis == 1)
 			{
-				for (int w = 0; w < len + 1; w++)
+				for (int z = 0; z < len + 1; z++)
 				{
-					real_column[u][w] = column[i][w];
-					if (w == index)
+					real_column[u][z] = column[i][z];
+					if (z == index)
 					{
-						real_column[u][w] = '-';
+						real_column[u][z] = '-';
 					}
 				}
 				u++;
