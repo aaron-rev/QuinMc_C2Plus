@@ -98,22 +98,22 @@ int main() {
 	cout << endl << "Column I" << endl; //prime implicant 찾기
 	//내가 할 일: hamming distance 가 1인 조합을 찾는 과정 수행하기 + prime implicant를 char prime에 넣기
 	//hamming distance = 1인 것 찾기
-	int index = 0, p=0; // u: real_column에 저장된 minterm의 갯수
+	int index = 0, u=0; // u: real_column에 저장된 minterm의 갯수
 	int hamm, i, j; // hamm= hamming distance
 	//Column I
 	for (int h = 0; h < count-1; h++) {
-		hamm = 0;
 		index = 0;
 		for (i = h + 1; i < count; i++) {
+			hamm = 0; //이로써 Column II로 넘어갈 때 중간이 잘라먹히는 문제 해결
 			for (j = 0; j < len + 1; j++) {
 				if (column[h][j] != column[i][j]) {
 					hamm++;
 					index = j;
 				}
-				/*if (hamm > 1) {
-					index = 0; //다시 앞으로 돌아감
-					break; //현 상황에서는 문제없지만 신중하긴 해야할 듯
-				}*/
+				if (hamm > 1) {
+					//index = 0; //있으면 좋긴 한데 없어도 되서, 시간 절약을 위해 뺌
+					break;
+				}
 			}
 			if (hamm == 1) {
 				for (int w = 0; w < len + 1; w++) {
@@ -125,8 +125,8 @@ int main() {
 				usage[h]++;
 				usage[i]++;
 				cout << endl;
-				p++; //real_column에 minterm이 저장되었으므로 갯수(u)를 count한다
-			}//현재 문제점: 코드가 Column II로 넘어가는 모든 것을 커버하지는 못하고 있음. 맨 위 두 개와 맨 아래만 cover됨. 다시 말해 중간이 싹다 잘라먹힘
+				u++; //real_column에 minterm이 저장되었으므로 갯수(u)를 count한다
+			}
 		}
 	}
 	//
