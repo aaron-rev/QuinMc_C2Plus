@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
-/* 문제 생겼던 함수 부분 다 지움 / 일단 백업 */
+/* 문제 생겼던 함수 부분 다 지움  */
 using namespace std;
 
 int CheckHammingDistanceOne(QM& qm1, QM& qm2, int length);
