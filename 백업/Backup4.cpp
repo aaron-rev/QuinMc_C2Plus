@@ -171,6 +171,9 @@ int MakeColumn(char** real_column, char** column, int len, int count)
 			}
 		}
 	}
+	
+	cout << endl;
+	
 	for (int i = 0; i < u; i++)
 	{
 		for (int j = 0; j < len + 1; j++)
