@@ -93,9 +93,11 @@ int main()
 	MakeColumn(real_column, column, len, count, usage);
 	int p = 0; //p=prime implicant의 갯수
 	CopyPrime(prime, column, len, count, usage, p);
+	for (i = 0; i < count; i++) //다 썼으니까 초기화
+		usage[i] = 0;
+
+	eliminate(column, len, count);
 	/*
-	//(column 1 remain to prime)
-	//(column 1 used to column 2)
 	column 2
 	column 2 remain to prime
 	column 2 used to column 3
@@ -103,17 +105,14 @@ int main()
 	column 3 remain to prime
 	print prime //END
 	*/
-	for (i = 0; i < count; i++) //다 썼으니까 초기화
-		usage[i] = 0;
-
-	eliminate(column, len, count);
-			
 }
 
 void MakeColumn(char** real_column, char** column, int len, int count, int* usage)
 {
 	int i, j;
 	int u = 0;
+	for (i = 0; i < count; i++) //usage의 초기화
+		usage[i] = 0;
 	for (i = 0; i < count; i++)
 	{
 		int index = 0;
@@ -161,9 +160,10 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 	std::cout << endl << "Current Situation" << endl;
 	//p=prime implicant의 갯수
 	for (int i = 0; i < count; i++) {
-		if (usage[i] == 0) { //현재 상황: 이 안이 완전히 씹히고 있음. 제대로 짰으면 '1010'이 나와야 함
-			for (int j = 0; j < len + 1; j++) { //if문 안이 출력이 안되서 prime implicant가 제대로 전달되는지도 확인 불가
-				prime[p][j] = real_column[i][j]; //위에서 hamm =1일때 real_column으로 옮기는 과정과 똑같이 해주면 됨
+		if (usage[i] == 0) {
+			cout << endl;
+			for (int j = 0; j < len + 1; j++) {
+				prime[p][j] = real_column[i][j];
 				cout << prime[p][j]; //prime implicant의 정상 구현 확인을 위해 써놓음. 확인 후 지울 예정이고, 출력 부분은 끝에서 구현.
 			}
 			cout << endl;
@@ -171,11 +171,23 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 		}
 	}
 
+	/*
+	//참고) 마지막 칼럼은 통째로 prime 배열로 옮겨야 함
+	if(이번 column이 마지막 ⇔ 더이상 hamm 값이 나오지 않음){
+	for(int i=0; i<count; i++){
+		for(int j=0; j<len+1; j++){
+			prime[p][j] = real_column[i][j];
+			cout << prime[p][j];
+		}
+		cout << endl;
+		p++;
+	}
+	*/
 }
 
 void eliminate(char** column, int len, int count) {
 	for (int i = 0; i < count; i++) {
 		for (int j = 0; j < len + 1; j++)
 			column[i][j] = '\0'; //배열 내용을 지우는 방법
-	} //비워진 것 확인 안됨
+	} //비워진 것 확인됨
 }
