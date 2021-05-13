@@ -6,7 +6,7 @@ using namespace std;
 
 void MakeColumn(char**, char**, int, int, int*);
 void CopyPrime(char**, char**, int, int, int*, int); //usage를 세야 해서 int가 하나 더 들어감
-void eliminate(char**, int, int);
+void reset(char**, int*, int, int);
 
 int main()
 {
@@ -89,14 +89,18 @@ int main()
 		}
 		cout << endl;
 	}
-	cout << endl;
+	//Column I -> Column II
+	cout << endl<<"Column II"<<endl;
 	MakeColumn(real_column, column, len, count, usage);
 	int p = 0; //p=prime implicant의 갯수
 	CopyPrime(prime, column, len, count, usage, p);
-	for (i = 0; i < count; i++) //다 썼으니까 초기화
-		usage[i] = 0;
-
-	eliminate(column, len, count);
+	reset(column, usage, len, count);
+	
+	//Column II -> Column III
+	cout << endl<<"Column III"<<endl;
+	MakeColumn(column, real_column, len, count, usage);
+	CopyPrime(prime, real_column, len, count, usage, p);
+	reset(real_column, usage, len, count);
 	/*
 	column 2
 	column 2 remain to prime
@@ -161,7 +165,6 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 	//p=prime implicant의 갯수
 	for (int i = 0; i < count; i++) {
 		if (usage[i] == 0) {
-			cout << endl;
 			for (int j = 0; j < len + 1; j++) {
 				prime[p][j] = real_column[i][j];
 				cout << prime[p][j]; //prime implicant의 정상 구현 확인을 위해 써놓음. 확인 후 지울 예정이고, 출력 부분은 끝에서 구현.
@@ -185,7 +188,9 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 	*/
 }
 
-void eliminate(char** column, int len, int count) {
+void reset(char** column, int* usage, int len, int count) {
+	for (i = 0; i < count; i++) //다 썼으니까 초기화
+		usage[i] = 0;
 	for (int i = 0; i < count; i++) {
 		for (int j = 0; j < len + 1; j++)
 			column[i][j] = '\0'; //배열 내용을 지우는 방법
