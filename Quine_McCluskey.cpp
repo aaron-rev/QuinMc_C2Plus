@@ -4,11 +4,13 @@
 
 using namespace std;
 
-void column1(char**, char**, int, int);
+int MakeColumn(char**, char**, int, int);
+bool CheckFinish(char**, int,int);
+bool CheckSame(char**, char**, int, int);
 
 int main()
 {
-	int count = -1, len, mc = 0;
+	int count = -1, len=0, mc = 0;
 	char line[100];
 
 	ifstream fin("input_minterm.txt");
@@ -27,13 +29,13 @@ int main()
 	}
 	fin.close();
 	char** column = new char* [count];
-	char** real_column = new char* [count];
+	char** column2 = new char* [count];
 	char** prime = new char* [count];
 	char** true_minterm = new char* [mc];
 	for (int i = 0; i < count; i++)
 	{
 		column[i] = new char[len + 1];
-		real_column[i] = new char[len + 1];
+		column2[i] = new char[len + 1];
 		prime[i] = new char[len + 1];
 	}
 	for (int i = 0; i < mc; i++)
@@ -86,11 +88,47 @@ int main()
 		cout << endl;
 	}
 	cout << endl;
-	column1(real_column, column, len, count);
+	int ColumnNum = 0;
+	int ColumnRow = 0;
+	while (1)
+	{
+		if (ColumnNum % 2 == 0)
+		{
+			ColumnRow=MakeColumn(column2, column, len, count);
+			if (CheckFinish(column2, len, ColumnRow) == true) break;    //마지막 칼럼 확인시 반복문 탈출
+		}
+		else
+		{
+			ColumnRow = MakeColumn(column, column2, len, count);
+			if (CheckFinish(column, len, ColumnRow) == true) break;
+		}
+	}
 
 }
+bool CheckFinish(char** column, int len,int row) // 마지막 칼럼 확인 함수 미완
+{
+	int Hd = 0;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 1; i + j < row; j++)
+		{
+			for (int w = 0; w < len + 1; w++)
+			{
 
-void column1(char** real_column, char** column, int len, int count)
+			}
+		}
+	}
+}
+bool CheckSame(char** column2, char** column, int line,int row) // 중복 확인 함수
+{
+	for (int i = 0; i < row; i++)
+	{
+		if (strcmp(column2[i], column[line]) == 0)
+			return false;
+	}
+	return true;
+}
+int MakeColumn(char** column2, char** column, int len, int count)
 {
 	int u = 0;
 	for (int i = 0; i < count; i++)
@@ -114,15 +152,15 @@ void column1(char** real_column, char** column, int len, int count)
 			}
 			if (Hamming_dis == 1)
 			{
-				for (int z = 0; z < len + 1; z++)
+				column[i][index] = '-';
+				if (CheckSame(column2, column, i, u) == true)
 				{
-					real_column[u][z] = column[i][z];
-					if (z == index)
+					for (int z = 0; z < len + 1; z++)
 					{
-						real_column[u][z] = '-';
+						column2[u][z] = column[i][z];
 					}
+					u++;
 				}
-				u++;
 			}
 		}
 	}
@@ -130,8 +168,9 @@ void column1(char** real_column, char** column, int len, int count)
 	{
 		for (int j = 0; j < len + 1; j++)
 		{
-			cout << real_column[i][j];
+			cout << column2[i][j];
 		}
 		cout << endl;
 	}
+	return u;
 }
