@@ -135,8 +135,11 @@ int main() {
 	int p = 0; //p=prime implicant의 갯수
 	for (i = 0; i < count; i++) {
 		if (usage[i] == 0) {
-			for (j = 0; j < len + 1; j++)
+			for (j = 0; j < len + 1; j++) {
 				prime[p][j] = column[i][j];
+				cout << prime[p][j];
+			}
+			cout << endl;
 			p++;
 		}
 	}
