@@ -189,7 +189,7 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 }
 
 void reset(char** column, int* usage, int len, int count) {
-	for (i = 0; i < count; i++) //다 썼으니까 초기화
+	for (int i = 0; i < count; i++) //다 썼으니까 초기화
 		usage[i] = 0;
 	for (int i = 0; i < count; i++) {
 		for (int j = 0; j < len + 1; j++)
