@@ -96,28 +96,36 @@ int main()
 		{
 			ColumnRow=MakeColumn(column2, column, len, count);
 			if (CheckFinish(column2, len, ColumnRow) == true) break;    //마지막 칼럼 확인시 반복문 탈출
+			ColumnNum++;
 		}
 		else
 		{
 			ColumnRow = MakeColumn(column, column2, len, count);
 			if (CheckFinish(column, len, ColumnRow) == true) break;
+			ColumnNum++;
 		}
 	}
 
 }
 bool CheckFinish(char** column, int len,int row) // 마지막 칼럼 확인 함수 미완
 {
-	int Hd = 0;
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 1; i + j < row; j++)
 		{
+			int Hd = 0;
 			for (int w = 0; w < len + 1; w++)
 			{
-
+				if (column[i][w] != column[i + j][w])
+					Hd++;
+				if (Hd > 1)
+					break;
 			}
+			if (Hd == 1)
+				return false;
 		}
 	}
+	return true;
 }
 bool CheckSame(char** column2, char** column, int line,int row) // 중복 확인 함수
 {
