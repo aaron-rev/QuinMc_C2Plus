@@ -83,31 +83,35 @@ int main()
 		}
 	}
 
-	/* 1이 한개만 있는 열 찾기 */
-	for (int i = 0; i < TMCount; i++)
+	while (!CheckBreak(PITable[PICount], TMCount)) //확인행이 모두 1이 될 때까지 반복
 	{
-		int PIRowIdx, PIColumnIdx;
-		int OneCount = 0;
-		for (int j = 0; j < PICount; j++)
+		/* 1이 한개만 있는 열 찾기 */
+		for (int i = 0; i < TMCount; i++)
 		{
-			if (PITable[j][i] == 1) 
+			int PIRowIdx, PIColumnIdx;
+			int OneCount = 0;
+			for (int j = 0; j < PICount; j++)
 			{
-				OneCount++;
-				PIRowIdx = j;
-				PIColumnIdx = i;
+				if (PITable[j][i] == 1)
+				{
+					OneCount++;
+					PIRowIdx = j;
+					PIColumnIdx = i;
+				}
 			}
-		}
 
-		if (OneCount == 1)					/* 만약 1이 1개만 있는 열을 발견한다면 */
-		{
-			for (int i = 0; i < len; i++)
+			if (OneCount == 1)					/* 만약 1이 1개만 있는 열을 발견한다면 */
 			{
-				EssentialPI[EssentialPICount][i] = PIColumn[PIRowIdx][i];
-				PITable[PICount][PIColumnIdx] = 1;    /* 확인 행에 1 표시 */
+				for (int i = 0; i < len; i++)
+				{
+					EssentialPI[EssentialPICount][i] = PIColumn[PIRowIdx][i];
+					PITable[PICount][PIColumnIdx] = 1;    /* 확인 행에 1 표시 */
+				}
+				EssentialPICount++;   // EPI 개수 1개 증가
 			}
-			EssentialPICount++;   // EPI 개수 1개 증가
 		}
 	}
+	
 
 
 	/* 검토용 출력 */
@@ -151,5 +155,5 @@ int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM �
 		sum += CheckRow[i];
 	}
 
-	return sum;  //Sum == TMCount 이면 반복문 빠져나감.
+	return sum == TMCount;  //Sum == TMCount 이면 반복문 빠져나감.
 }
