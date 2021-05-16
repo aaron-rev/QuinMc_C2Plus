@@ -2,6 +2,8 @@
 
 using namespace std;
 
+int CheckBreak(int a[], int); // 마지막 열을 모두 더한게 TMCount와 같으면 모든 요소가 1로 체크 된 것이므로 break.
+
 int main()
 {
 	int len;
@@ -139,4 +141,15 @@ int main()
 	delete[] PITable;
 	delete[] EssentialPI;
 	return 0;
+}
+
+int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM 개수를 매개변수로 넘김.
+{
+	int sum = 0;
+	for (int i = 0; i < TMCount; i++)
+	{
+		sum += CheckRow[i];
+	}
+
+	return sum;  //Sum == TMCount 이면 반복문 빠져나감.
 }
