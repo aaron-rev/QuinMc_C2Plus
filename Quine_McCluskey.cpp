@@ -1,3 +1,4 @@
+#pragma warning (disable:4996) 
 #include<iostream>
 #include<fstream>
 #include<cstdlib>
@@ -14,7 +15,7 @@ int main()
 	char line[100];
 
 	ifstream fin("input_minterm.txt");
-	if (!fin.is_open())
+	if (!fin.is_open())					// ÆÄÀÏÀÌ ¿­·È´ÂÁö Ã¼Å©
 	{
 		cout << "false" << endl;
 	}
@@ -22,10 +23,10 @@ int main()
 	{
 		fin.getline(line, sizeof(line));
 		if (line[0] == 'm')
-			mc++;
+			mc++;						// Æ®·ç¹ÎÅÒ °¹¼ö Ä«¿îÆÃ
 		if (count == -1)
 			len = atoi(line);
-		count++;
+		count++;						// ¹ÎÅÒ ÃÑ °¹¼ö Ä«¿îÆÃ
 	}
 	fin.close();
 	char** column = new char* [count];
@@ -54,6 +55,8 @@ int main()
 				column[c_row][w] = line[i];
 				true_minterm[t_row][w] = line[i];
 			}
+			column[c_row][w] = '\0';
+			true_minterm[t_row][w] = '\0';
 			t_row++;
 			c_row++;
 		}
@@ -64,6 +67,7 @@ int main()
 			{
 				column[c_row][w] = line[i];
 			}
+			column[c_row][w] = '\0';
 			c_row++;
 		}
 
@@ -71,22 +75,10 @@ int main()
 	fin.close();
 	cout << "column" << endl;
 	for (int i = 0; i < count; i++)
-	{
-		for (int j = 0; j < len + 1; j++)
-		{
-			cout << column[i][j];
-		}
-		cout << endl;
-	}
+		cout << column[i] << endl;
 	cout << "true_minterm" << endl;
-	for (int i = 0; i < mc; i++)
-	{
-		for (int j = 0; j < len + 1; j++)
-		{
-			cout << true_minterm[i][j];
-		}
-		cout << endl;
-	}
+	for (int i= 0; i < len; i++)
+		cout << true_minterm[i]<<endl;
 	cout << endl;
 	int ColumnNum = 0;
 	int ColumnRow = 0;
@@ -107,7 +99,7 @@ int main()
 	}
 
 }
-bool CheckFinish(char** column, int len,int row) // ¸¶Áö¸· Ä®·³ È®ÀÎ ÇÔ¼ö ¹Ì¿Ï
+bool CheckFinish(char** column, int len,int row) // ¸¶Áö¸· Ä®·³ È®ÀÎ ÇÔ¼ö 
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -146,7 +138,7 @@ int MakeColumn(char** column2, char** column, int len, int count)
 		{
 			int Hamming_dis = 0;
 			int w = 0;
-			for (w = 0; w < len + 1; w++)
+			for (w = 0; w < len; w++)
 			{
 				if (column[i][w] != column[i + j][w])
 				{
@@ -160,25 +152,22 @@ int MakeColumn(char** column2, char** column, int len, int count)
 			}
 			if (Hamming_dis == 1)
 			{
+				char ch = column[i][index];
 				column[i][index] = '-';
+				//cout << column[i] << endl;
 				if (CheckSame(column2, column, i, u) == true)
 				{
-					for (int z = 0; z < len + 1; z++)
-					{
-						column2[u][z] = column[i][z];
-					}
+					strcpy(column2[u], column[i]);
 					u++;
 				}
+				column[i][index] = ch;
+
 			}
 		}
 	}
 	for (int i = 0; i < u; i++)
-	{
-		for (int j = 0; j < len + 1; j++)
-		{
-			cout << column2[i][j];
-		}
-		cout << endl;
-	}
+		cout << column2[i] << endl;
+
+	cout << endl;
 	return u;
 }
