@@ -6,12 +6,12 @@
 using namespace std;
 
 int MakeColumn(char**, char**, int, int, int*);
-void CopyPrime(char**, char**, int, int, int*, int); //usage¸¦ ¼¼¾ß ÇØ¼­ int°¡ ÇÏ³ª ´õ µé¾î°¨
+void CopyPrime(char**, char**, int, int, int*, int); //usageë¥¼ ì„¸ì•¼ í•´ì„œ intê°€ í•˜ë‚˜ ë” ë“¤ì–´ê°
 void reset(char**, int*, int, int);
 bool CheckFinish(char**, int, int);
 bool CheckSame(char**, char**, int, int);
 void LastPrime(char**, char**, int, int, int *);
-void ShowPrime(char**, int, int); //ÀÌ°Ô ¿Ö ¾Æ¹«°Íµµ ¾È ³ª¿ÀÁö?
+void ShowPrime(char**, int, int); //ì´ê²Œ ì™œ ì•„ë¬´ê²ƒë„ ì•ˆ ë‚˜ì˜¤ì§€?
 
 int main()
 {
@@ -36,7 +36,7 @@ int main()
 	char** column = new char*[count];
 	char** column2 = new char*[count];
 	char** prime = new char*[count];
-	int* usage = new int[count]; //columnÀÇ °¢ ÇàÀÇ »ç¿ëÈ½¼ö¸¦ ÃøÁ¤. 0ÀÎ ÇàÀº prime implicant·Î ¿Å°ÜÁÖ¸é µÊ.
+	int* usage = new int[count]; //columnì˜ ê° í–‰ì˜ ì‚¬ìš©íšŸìˆ˜ë¥¼ ì¸¡ì •. 0ì¸ í–‰ì€ prime implicantë¡œ ì˜®ê²¨ì£¼ë©´ ë¨.
 	char** true_minterm = new char*[mc];
 	//int* plc = new int[count];
 	for (int i = 0; i < count; i++)
@@ -97,7 +97,7 @@ int main()
 	cout << endl;
 	int ColumnNum = 0;
 	int ColumnRow = 0;
-	int p = 0; //prime implicant °¹¼ö
+	int p = 0; //prime implicant ê°¯ìˆ˜
 	while (1)
 	{
 		if (ColumnNum % 2 == 0)
@@ -105,7 +105,7 @@ int main()
 			cout << "Column " << ColumnNum+2 << endl;
 			ColumnRow = MakeColumn(column2, column, len, count, usage);
 			CopyPrime(prime, column, len, count, usage, p);
-			if (CheckFinish(column2, len, ColumnRow) == true) break;    //¸¶Áö¸· Ä®·³ È®ÀÎ½Ã ¹İº¹¹® Å»Ãâ
+			if (CheckFinish(column2, len, ColumnRow) == true) break;    //ë§ˆì§€ë§‰ ì¹¼ëŸ¼ í™•ì¸ì‹œ ë°˜ë³µë¬¸ íƒˆì¶œ
 			reset(column, usage, len, count);
 			ColumnNum++;
 		}
@@ -119,12 +119,12 @@ int main()
 			ColumnNum++;
 		}
 	}
-	//Last Column => ¸¶Áö¸· Ä®·³À» ÀüºÎ prime ¹è¿­·Î ¿Å±è
+	//Last Column => ë§ˆì§€ë§‰ ì¹¼ëŸ¼ì„ ì „ë¶€ prime ë°°ì—´ë¡œ ì˜®ê¹€
 	if (ColumnNum % 2 == 0)
 		LastPrime(column2, prime, len, count, &p);
 	else
 		LastPrime(column, prime, len, count, &p);
-	//prime ¹è¿­¿¡ ÀúÀåµÈ ¸ğµç prime implicant¸¦ Ãâ·Â -> ÀÌ°Ô Áö±İ ¾ÈµÇ°í ÀÖÀ½
+	//prime ë°°ì—´ì— ì €ì¥ëœ ëª¨ë“  prime implicantë¥¼ ì¶œë ¥ -> ì´ê²Œ ì§€ê¸ˆ ì•ˆë˜ê³  ìˆìŒ
 	cout << endl << "Prime Implicant" << endl;
 	for (int i = 0; i < p; i++) {
 		for (int j = 0; j < len + 1; j++) {
@@ -135,7 +135,7 @@ int main()
 	
 	return 0;
 }
-bool CheckFinish(char** column, int len, int row) // ¸¶Áö¸· Ä®·³ È®ÀÎ ÇÔ¼ö ¹Ì¿Ï 
+bool CheckFinish(char** column, int len, int row) // ë§ˆì§€ë§‰ ì¹¼ëŸ¼ í™•ì¸ í•¨ìˆ˜ ë¯¸ì™„ 
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -155,7 +155,7 @@ bool CheckFinish(char** column, int len, int row) // ¸¶Áö¸· Ä®·³ È®ÀÎ ÇÔ¼ö ¹Ì¿Ï
 	}
 	return true;
 }
-bool CheckSame(char** column2, char** column, int line, int row) // Áßº¹ È®ÀÎ ÇÔ¼ö
+bool CheckSame(char** column2, char** column, int line, int row) // ì¤‘ë³µ í™•ì¸ í•¨ìˆ˜
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -168,7 +168,7 @@ int MakeColumn(char** column2, char** column, int len, int count, int* usage)
 {
 	int u = 0;
 	int i, j;
-	for (i = 0; i < count; i++) //usageÀÇ ÃÊ±âÈ­
+	for (i = 0; i < count; i++) //usageì˜ ì´ˆê¸°í™”
 		usage[i] = 0;
 	for (i = 0; i < count; i++)
 	{
@@ -217,13 +217,13 @@ int MakeColumn(char** column2, char** column, int len, int count, int* usage)
 }
 
 void CopyPrime(char** prime, char** real_column, int len, int count, int* usage, int p) {
-	//p=prime implicantÀÇ °¹¼ö
+	//p=prime implicantì˜ ê°¯ìˆ˜
 	cout <<endl<<"Prime From Column" << endl;
 	for (int i = 0; i < count; i++) {
 		if (usage[i] == 0) {
 			for (int j = 0; j < len + 1; j++) {
 				prime[p][j] = real_column[i][j];
-				cout << prime[p][j]; //prime implicantÀÇ Á¤»ó ±¸Çö È®ÀÎÀ» À§ÇØ ½á³õÀ½. È®ÀÎ ÈÄ Áö¿ï ¿¹Á¤ÀÌ°í, Ãâ·Â ºÎºĞÀº ³¡¿¡¼­ ±¸Çö.
+				cout << prime[p][j]; //prime implicantì˜ ì •ìƒ êµ¬í˜„ í™•ì¸ì„ ìœ„í•´ ì¨ë†“ìŒ. í™•ì¸ í›„ ì§€ìš¸ ì˜ˆì •ì´ê³ , ì¶œë ¥ ë¶€ë¶„ì€ ëì—ì„œ êµ¬í˜„.
 			}
 			cout << endl;
 			p++;
@@ -232,12 +232,12 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 }
 
 void reset(char** column, int* usage, int len, int count) {
-	for (int i = 0; i < count; i++) //´Ù ½èÀ¸´Ï±î ÃÊ±âÈ­
+	for (int i = 0; i < count; i++) //ë‹¤ ì¼ìœ¼ë‹ˆê¹Œ ì´ˆê¸°í™”
 		usage[i] = 0;
 	for (int i = 0; i < count; i++) {
 		for (int j = 0; j < len + 1; j++)
-			column[i][j] = '\0'; //¹è¿­ ³»¿ëÀ» Áö¿ì´Â ¹æ¹ı
-	} //ºñ¿öÁø °Í È®ÀÎµÊ
+			column[i][j] = '\0'; //ë°°ì—´ ë‚´ìš©ì„ ì§€ìš°ëŠ” ë°©ë²•
+	} //ë¹„ì›Œì§„ ê²ƒ í™•ì¸ë¨
 }
 
 void LastPrime(char** column, char** prime, int len, int count, int* p) {
@@ -252,7 +252,7 @@ void LastPrime(char** column, char** prime, int len, int count, int* p) {
 	}
 }
 
-void ShowPrime(char** prime, int len, int p) { //¿©±â¼­ prime implicant¸¦ ¹ñ¾î¾ß ÇÏ´Âµ¥ ¾Æ¹«°Íµµ ¾ÈµÇ°í ÀÖÀ½
+void ShowPrime(char** prime, int len, int p) { //ì—¬ê¸°ì„œ prime implicantë¥¼ ë±‰ì–´ì•¼ í•˜ëŠ”ë° ì•„ë¬´ê²ƒë„ ì•ˆë˜ê³  ìˆìŒ
 	cout << endl << "Prime Implicant" << endl;
 	for (int i = 0; i < p; i++) {
 		for (int j = 0; j < len + 1; j++) {
