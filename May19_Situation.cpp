@@ -250,3 +250,4 @@ void ShowPrime(char** prime, int len, int *p) { //여기서 1-01도 prime에 들
 		}
 		cout << endl;
 	}
+}
