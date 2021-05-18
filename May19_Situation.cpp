@@ -11,8 +11,6 @@ void CopyPrime(char**, char**, int, int, int*, int *); //usage를 세야 해서 
 void reset(char**, int*, int, int);
 bool CheckFinish(char**, int, int);
 bool CheckSame(char**, char**, int, int);
-void UsageCount(char**, int, int, int*);
-//void CurrPrime(char**, int, int);
 void LastPrime(char**, char**, int, int, int *);
 void ShowPrime(char**, int, int *); //이게 왜 아무것도 안 나오지?
 
@@ -41,7 +39,6 @@ int main()
 	char** prime = new char*[count];
 	int* usage = new int[count]; //column의 각 행의 사용횟수를 측정. 0인 행은 prime implicant로 옮겨주면 됨.
 	char** true_minterm = new char*[mc];
-	//int* plc = new int[count];
 	for (int i = 0; i < count; i++)
 	{
 		column[i] = new char[len + 1];
@@ -112,7 +109,6 @@ int main()
 			ColumnRow = MakeColumn(column2, column, len, count, usage);
 			CopyPrime(prime, column, len, count, usage, &p);
 			count = ColumnRow;
-			//CurrPrime(prime, len, p);
 			if (CheckFinish(column2, len, ColumnRow) == true) break;    //마지막 칼럼 확인시 반복문 탈출
 			reset(column, usage, len, count);
 			ColumnNum++;
@@ -123,7 +119,6 @@ int main()
 			ColumnRow = MakeColumn(column, column2, len, count, usage);
 			CopyPrime(prime, column2, len, count, usage, &p);
 			count = ColumnRow; //이게 먼저 나오니까 Column 2->3로 갈 때 prime 배열로 가는 게 하나 덜 나온 듯
-			//CurrPrime(prime, len, p);
 			if (CheckFinish(column, len, ColumnRow) == true) break;
 			reset(column2, usage, len, count);
 			ColumnNum++;
@@ -134,12 +129,12 @@ int main()
 		LastPrime(column2, prime, len, count, &p);
 	else
 		LastPrime(column, prime, len, count, &p);
-	//prime 배열에 저장된 모든 prime implicant를 출력 -> 이게 지금 덜 되고 있음
+	//prime 배열에 저장된 모든 prime implicant를 출력
 	ShowPrime(prime, len, &p);
 
 	return 0;
 }
-bool CheckFinish(char** column, int len, int row) // 마지막 칼럼 확인 함수 미완 
+bool CheckFinish(char** column, int len, int row) // 마지막 칼럼 확인 함수
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -193,17 +188,14 @@ int MakeColumn(char** column2, char** column, int len, int count, int* usage)
 			}
 			if (hamm == 1)
 			{
-				cout<<column[i]<<" "<<column[i+j]<<"   "; //usage count 목적
 				char ch = column[i][index];
 				column[i][index] = '-';
-				//cout<<column[i]<<endl;
 				if (CheckSame(column2, column, i, u) == true) { //다를 때
 					strcpy(column2[u], column[i]);
 					u++;
 				}
 				usage[i]++;
 				usage[i+j]++;
-				cout << usage[i] << " " << usage[i+j]<< " " << column[i] << endl; //usage count 목적
 				column[i][index] = ch;
 			}
 		}
@@ -213,15 +205,6 @@ int MakeColumn(char** column2, char** column, int len, int count, int* usage)
 	cout << endl;
 	return u;
 }
-
-
-void UsageCount(char**column, int len, int count, int* usage) {
-	std::cout << endl;
-	for (int i = 0; i < count; i++) {
-		cout << usage[i] << endl;
-	}
-}
-
 
 void CopyPrime(char** prime, char** real_column, int len, int count, int* usage, int* p) {
 	//p=prime implicant의 갯수
@@ -237,17 +220,7 @@ void CopyPrime(char** prime, char** real_column, int len, int count, int* usage,
 		}
 	}
 }
-/*
-void CurrPrime(char** prime, int len, int p) { //여기서 중간 상황이 제대로 반영이 안되면 ShowPrime이 문제가 아니라는 뜻임 -> 웅재씨가 해결해 줌	
-	cout << endl << "Current Prime" << endl;
-	for (int i = 0; i < p; i++) { //int count를 넣은 상태의 경우 Last Prime만 옮겨지고 있음. int p를 넣은 경우 이 안이 아예 씹힘 -> 해결
-		for (int j = 0; j < len + 1; j++) {
-			cout << prime[i][j];
-		}
-		cout << endl;
-	}
-} //제대로 짰으면 첫 번째에서는 1010이, 두 번째에서는 0-00과 1-01이 나와야 함
-*/
+
 void reset(char** column, int* usage, int len, int count) {
 	for (int i = 0; i < count; i++) //다 썼으니까 초기화
 		usage[i] = 0;
