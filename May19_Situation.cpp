@@ -110,8 +110,8 @@ int main()
 		{
 			cout << endl << "Column " << ColumnNum + 2 << endl;
 			ColumnRow = MakeColumn(column2, column, len, count, usage);
-			count = ColumnRow;
 			CopyPrime(prime, column, len, count, usage, &p);
+			count = ColumnRow;
 			//CurrPrime(prime, len, p);
 			if (CheckFinish(column2, len, ColumnRow) == true) break;    //마지막 칼럼 확인시 반복문 탈출
 			reset(column, usage, len, count);
@@ -121,10 +121,8 @@ int main()
 		{
 			cout << endl << "Column " << ColumnNum + 2 << endl;
 			ColumnRow = MakeColumn(column, column2, len, count, usage);
-			UsageCount(column2, len, count, usage);
-			count = ColumnRow;
-			
 			CopyPrime(prime, column2, len, count, usage, &p);
+			count = ColumnRow; //이게 먼저 나오니까 Column 2->3로 갈 때 prime 배열로 가는 게 하나 덜 나온 듯
 			//CurrPrime(prime, len, p);
 			if (CheckFinish(column, len, ColumnRow) == true) break;
 			reset(column2, usage, len, count);
