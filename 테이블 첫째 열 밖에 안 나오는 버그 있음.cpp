@@ -126,6 +126,7 @@ int main()
 	}
 
 	/* TM과 PI 비교해서 테이블 표시 (O : 0, X : 1) */
+	/* 여기 출력 제대로 안 되는 버그 있음 */
 	for (int i = 0; i < PICount; i++)
 	{
 		int count = 0;
