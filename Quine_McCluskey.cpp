@@ -7,11 +7,11 @@
 
 using namespace std;
 
-int MakeColumn(string*, string*, int, int, int*);
+int MakeColumn(string*, string*, int*);
 void CopyPrime(string*, string*, int, int, int*, int*); //usage를 세야 해서 int가 하나 더 들어감
 void reset(string*, int*, int, int);
-bool CheckFinish(string*, int, int);
-bool CheckSame(string*, string*, int, int);
+bool CheckFinish(string*);
+bool CheckSame(string*, string*, int);
 void LastPrime(string*, string*, int, int, int*);
 void ShowPrime(string*, int, int*); //이게 왜 아무것도 안 나오지?
 
@@ -24,6 +24,7 @@ int main()
 	int* usage = new int[1000]; //column의 각 행의 사용횟수를 측정. 0인 행은 prime implicant로 옮겨주면 됨.
 	string* true_minterm = new string[1000];
 	int c_row = 0, t_row = 0;
+	int count=0;
 	ifstream fin("input_minterm.txt");
 	if (!fin.is_open())
 	{
@@ -86,14 +87,14 @@ int main()
 
 	return 0;
 }
-bool CheckFinish(string* column, int len, int row) // 마지막 칼럼 확인 함수
+bool CheckFinish(string* column) // 마지막 칼럼 확인 함수
 {
-	for (int i = 0; i < row; i++)
+	for (int i = 0;column[i].empty()!=true; i++)
 	{
-		for (int j = 1; i + j < row; j++)
+		for (int j = 1; column[i+j].empty() != true; j++)
 		{
 			int hamm = 0; //hamming distance
-			for (int w = 0; w < len + 1; w++)
+			for (int w = 0; column[i][w]!='\0'; w++)
 			{
 				if (column[i][w] != column[i + j][w])
 					hamm++;
@@ -107,9 +108,9 @@ bool CheckFinish(string* column, int len, int row) // 마지막 칼럼 확인 함수
 	return true;
 	
 }
-bool CheckSame(string* column2, string* column, int line, int row) // 중복 확인 함수
+bool CheckSame(string* column2, string* column, int line) // 중복 확인 함수
 {
-	for (int i = 0; i < row; i++)
+	for (int i = 0; column[i].empty() != true; i++)
 	{
 		if (column2[i].compare(column[line]) == 0) //같을 때
 			return false;
@@ -120,7 +121,7 @@ int MakeColumn(string* column2, string* column,int* usage)
 {
 	int u = 0;
 	int i, j;
-	for (i = 0; i<count; i++)										//수정 필요
+	for (i = 0; column[i].empty()!=true; i++)										//수정 필요
 		usage[i] = 0;
 	for (i = 0; column[i].empty()!=true; i++)
 	{
@@ -143,7 +144,7 @@ int MakeColumn(string* column2, string* column,int* usage)
 			{
 				char ch = column[i][index];
 				column[i][index] = '-';
-				if (CheckSame(column2, column, i, u) == true) { //다를 때
+				if (CheckSame(column2, column, i) == true) { //다를 때
 					column2[u] = column[i];
 					u++;
 				}
