@@ -59,7 +59,7 @@ int main()
 		if (ColumnNum % 2 == 0)
 		{
 			cout << endl << "Column " << ColumnNum + 2 << endl;
-			ColumnRow = MakeColumn(column2, column, len, count, usage);
+			ColumnRow = MakeColumn(column2, column, usage);
 			CopyPrime(prime, column, usage, &p);
 			count = ColumnRow;
 			if (CheckFinish(column2, len, ColumnRow) == true) break;    //마지막 칼럼 확인시 반복문 탈출
@@ -70,9 +70,9 @@ int main()
 		{
 			cout << endl << "Column " << ColumnNum + 2 << endl;
 			ColumnRow = MakeColumn(column, column2, usage);
-			CopyPrime(prime, column2, len, count, usage, &p);
+			CopyPrime(prime, column2,  usage, &p);
 			count = ColumnRow; //이게 먼저 나오니까 Column 2->3로 갈 때 prime 배열로 가는 게 하나 덜 나온 듯
-			if (CheckFinish(column, len, ColumnRow) == true) break;
+			if (CheckFinish(column, ColumnRow) == true) break;
 			reset(column2, usage, len, count);
 			ColumnNum++;
 		}
