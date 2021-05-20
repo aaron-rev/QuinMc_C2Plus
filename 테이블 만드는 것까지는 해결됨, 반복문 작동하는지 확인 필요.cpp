@@ -132,9 +132,9 @@ int main()
 	/* 여기 첫번째 열 빼곤 출력 제대로 안 되어서 고쳐야 함 */
 	for (int i = 0; i < PICount; i++)
 	{
-		int count = 0;
 		for (int j = 0; j < TMCount; j++)
 		{
+			int count = 0;
 			for (int k = 0; k < PIColumn[i].length(); k++)
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;    
@@ -154,7 +154,7 @@ int main()
 		}
 		cout << endl;
 	}
-	
+
 	while (1)
 	{
 		/* 열을 확인해서 1이 하나만 있는 열이 있는 경우 PI로 저장 */
