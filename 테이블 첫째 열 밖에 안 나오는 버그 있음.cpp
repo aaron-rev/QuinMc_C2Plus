@@ -15,6 +15,8 @@ bool CheckSame(string*, string*, int, int);
 void LastPrime(string*, string*, int*);
 void ShowPrime(string*);
 
+int CheckBreak(int [], int);
+
 int main()
 {
 	string line;
@@ -126,7 +128,7 @@ int main()
 	}
 
 	/* TM과 PI 비교해서 테이블 표시 (O : 0, X : 1) */
-	/* 여기 출력 제대로 안 되는 버그 있음 */
+	/* 여기 첫번째 열 빼곤 출력 제대로 안 되어서 고쳐야 함 */
 	for (int i = 0; i < PICount; i++)
 	{
 		int count = 0;
@@ -139,6 +141,45 @@ int main()
 			}
 			if (count == PIColumn[i].length()) PITable[i][j] = 1;
 		}
+	}
+
+	while (1)
+	{
+		/* 열을 확인해서 1이 하나만 있는 열이 있는 경우 PI로 저장 */
+		for (int i = 0; i < TMCount; i++)
+		{
+			int PIRowIdx, PIColumnIdx;
+			int OneCount = 0;
+			for (int j = 0; j < PICount; j++)
+			{
+				if (PITable[j][i] == 1)
+				{
+					OneCount++;
+					PIRowIdx = j;
+					PIColumnIdx = i;
+				}
+			}
+
+			/* 1이 하나만 있고 확인용 행에 1이 표기가 안 된 경우 : 그 행에 대항하는 PI를 EPI에 저장하고 확인용행에 1 표기*/
+			if ((OneCount == 1) && (PITable[PICount][i] != 1))
+			{
+				EssentialPI[EssentialPICount++] = PIColumn[PIRowIdx];
+				for (int k = 0; k < TMCount; k++)
+				{
+					/* 행 확인해서 1 적혀있으면 확인행에 1 표시 */
+					if (PITable[PIRowIdx][k] == 1)
+					{
+						PITable[PICount][k] = 1;
+					}
+				}
+				PITable[PICount][i] = 1; 
+			}
+		}
+
+		if (CheckBreak(PITable[PICount], TMCount) == 1) break; // 확인용행의 합이 TM의 개수와 같아지면 break
+
+		/* 1이 하나만 있는 열이 없는 경우 */
+		/* 행을 체크해서 가장 1이 많이 있는 행의 PI를 EPI에 저장 */
 	}
 
 
@@ -278,4 +319,15 @@ void ShowPrime(string* prime) {
 		cout << prime[i];
 		cout << endl;
 	}
+}
+
+int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM 개수를 매개변수로 넘김.
+{
+	int sum = 0;
+	for (int i = 0; i < TMCount; i++)
+	{
+		sum += CheckRow[i];
+	}
+
+	return sum == TMCount;  //Sum == TMCount 이면 반복문 빠져나감.
 }
