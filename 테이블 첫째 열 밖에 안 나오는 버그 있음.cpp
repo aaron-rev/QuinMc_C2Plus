@@ -144,6 +144,17 @@ int main()
 		}
 	}
 
+	/* 검토용 출력 */
+	cout << endl;
+	for (int i = 0; i < PICount + 1; i++)
+	{
+		for (int j = 0; j < TMCount; j++)
+		{
+			cout << PITable[i][j];
+		}
+		cout << endl;
+	}
+	
 	while (1)
 	{
 		/* 열을 확인해서 1이 하나만 있는 열이 있는 경우 PI로 저장 */
@@ -203,18 +214,6 @@ int main()
 		}
 
 		if (CheckBreak(PITable[PICount], TMCount) == 1) break; // 확인용행의 합이 TM의 개수와 같아지면 break
-	}
-
-
-	/* 검토용 출력 */
-	cout << endl;
-	for (int i = 0; i < PICount + 1; i++)
-	{
-		for (int j = 0; j < TMCount; j++)
-		{
-			cout << PITable[i][j];
-		}
-		cout << endl;
 	}
 
 	for (int i = 0; i < PICount + 1; i++)
