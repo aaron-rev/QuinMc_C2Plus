@@ -16,6 +16,7 @@ void LastPrime(string*, string*, int*);
 void ShowPrime(string*);
 
 int CheckBreak(int [], int);
+int CheckNumberOne(int*, int);
 
 int main()
 {
@@ -180,6 +181,28 @@ int main()
 
 		/* 1이 하나만 있는 열이 없는 경우 */
 		/* 행을 체크해서 가장 1이 많이 있는 행의 PI를 EPI에 저장 */
+		int max = 0;
+		int maxIdx = 0;
+		for (int i = 0; i < PICount; i++)
+		{
+			if (CheckNumberOne(PITable[i], TMCount) > max)
+			{
+				max = CheckNumberOne(PITable[i], TMCount);
+				maxIdx = i;
+			}
+			EssentialPI[EssentialPICount++] = PIColumn[maxIdx];
+
+			/* 해당되는 1들을 확인행에 체크 */
+			for (int j = 0; j < TMCount; j++)
+			{
+				if (PITable[maxIdx][j] == 1)
+				{
+					PITable[PICount][i] = 1;
+				}
+			}
+		}
+
+		if (CheckBreak(PITable[PICount], TMCount) == 1) break; // 확인용행의 합이 TM의 개수와 같아지면 break
 	}
 
 
@@ -330,4 +353,15 @@ int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM �
 	}
 
 	return sum == TMCount;  //Sum == TMCount 이면 반복문 빠져나감.
+}
+
+int CheckNumberOne(int* PITableRow, int TMCount)
+{
+	int count = 0;
+	for (int i = 0; i < TMCount; i++)
+	{
+		if (PITableRow[i] == 1) count++;
+	}
+
+	return count;
 }
