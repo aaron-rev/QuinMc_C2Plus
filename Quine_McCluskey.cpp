@@ -408,14 +408,14 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	int NCount = 0;
 	int* CheckNot = new int[EssentialPI[0].length()];
 
-	for (int i = 0; i < EssentialPI[0].length(); i++)
+	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		CheckNot[i] = 0;
 	}
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (int j = 0; j < EssentialPI[0].length(); j++)
+		for (unsigned int j = 0; j < EssentialPI[0].length(); j++)
 		{
 			if (EssentialPI[i][j] == '0')
 			{
@@ -424,7 +424,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 		}
 	}
 
-	for (int i = 0; i < EssentialPI[0].length(); i++)
+	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		NCount += CheckNot[i];
 	}
