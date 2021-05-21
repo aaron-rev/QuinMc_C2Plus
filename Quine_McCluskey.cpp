@@ -15,7 +15,6 @@ bool CheckSame(string*, string*, int, int);
 void LastPrime(string*, string*, int*);
 void ShowPrime(string*);
 
-int CheckBreak(int[], int);
 int CheckNumberOne(int*, int);
 int MakeTransNum(int, string*);
 int CheckAnd(int, string*);
@@ -364,16 +363,6 @@ void ShowPrime(string* prime) {
 		cout << prime[i];
 		cout << endl;
 	}
-}
-int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM 개수를 매개변수로 넘김.
-{
-	int sum = 0;
-	for (int i = 0; i < TMCount; i++)
-	{
-		sum += CheckRow[i];
-	}
-
-	return sum == TMCount;  //Sum == TMCount 이면 반복문 빠져나감.
 }
 
 int CheckNumberOne(int* PITableRow, int TMCount)
