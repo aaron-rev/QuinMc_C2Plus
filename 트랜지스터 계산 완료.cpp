@@ -138,7 +138,7 @@ int main()
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (int k = 0; k < PIColumn[i].length(); k++)
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //컴파일에 문제는 없지만 error c4018이 뜨는 게 신경쓰여서 고쳐놓음. 407열, 421열도 마찬가지
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;    
 				else if (PIColumn[i][k] == '-') count++;
@@ -404,7 +404,7 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (int j = 0; j < EssentialPI[i].length(); j++)
+		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //여기도 int -> unsigned int (error c4018 해결)
 		{
 			if (EssentialPI[i][j] == '1' || EssentialPI[i][j] == '0') ACount++;
 		}
@@ -418,7 +418,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	int NCount = 0;
 	int* CheckNot = new int[EssentialPI[0].length()];
 
-	for (int i = 0; i < EssentialPI[0].length(); i++)
+	for (unsigned int i = 0; i < EssentialPI[0].length(); i++) //여기도 int -> unsigned int (error c4018 해결)
 	{
 		int CheckZero = 0;
 		int CheckOne = 0;
