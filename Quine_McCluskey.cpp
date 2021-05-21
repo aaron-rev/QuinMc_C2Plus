@@ -8,7 +8,7 @@
 using namespace std;
 
 int MakeColumn(string*, string*, int*);
-void CopyPrime(string*, string*, int*, int*); //usageë¥¼ ì„¸ì•¼ í•´ì„œ intê°€ í•˜ë‚˜ ë” ë“¤ì–´ê°
+void CopyPrime(string*, string*, int*, int*); //usage¸¦ ¼¼¾ß ÇØ¼­ int°¡ ÇÏ³ª ´õ µé¾î°¨
 void reset(string*);
 bool CheckFinish(string*);
 bool CheckSame(string*, string*, int, int);
@@ -26,12 +26,12 @@ int main()
 	string* column = new string[1000];
 	string* column2 = new string[1000];
 	string* prime = new string[1000];
-	int* usage = new int[1000]; //columnì˜ ê° í–‰ì˜ ì‚¬ìš©íšŸìˆ˜ë¥¼ ì¸¡ì •. 0ì¸ í–‰ì€ prime implicantë¡œ ì˜®ê²¨ì£¼ë©´ ë¨.
+	int* usage = new int[1000]; //columnÀÇ °¢ ÇàÀÇ »ç¿ëÈ½¼ö¸¦ ÃøÁ¤. 0ÀÎ ÇàÀº prime implicant·Î ¿Å°ÜÁÖ¸é µÊ.
 	string* true_minterm = new string[1000];
 	int c_row = 0, t_row = 0;
 
 	int TMCount = 0, PICount = 0, EssentialPICount = 0;
-	string* PIColumn = nullptr, * TMRow = nullptr;  //PIë¥¼ ì €ì¥í•  ì—´ê³¼ TMì„ ì €ì¥í•  í–‰
+	string* PIColumn = nullptr, * TMRow = nullptr;  //PI¸¦ ÀúÀåÇÒ ¿­°ú TMÀ» ÀúÀåÇÒ Çà
 	int** PITable = nullptr;
 	string* EssentialPI = nullptr;
 
@@ -62,7 +62,7 @@ int main()
 		cout << column[i] << endl;
 	cout << endl;
 	int ColumnNum = 0;
-	int p = 0; //prime implicant ê°¯ìˆ˜
+	int p = 0; //prime implicant °¹¼ö
 	while (1)
 	{
 		if (ColumnNum % 2 == 0)
@@ -70,7 +70,7 @@ int main()
 			cout << endl << "Column " << ColumnNum + 2 << endl;
 			MakeColumn(column2, column, usage);
 			CopyPrime(prime, column, usage, &p);
-			if (CheckFinish(column2) == true) break;    //ë§ˆì§€ë§‰ ì¹¼ëŸ¼ í™•ì¸ì‹œ ë°˜ë³µë¬¸ íƒˆì¶œ
+			if (CheckFinish(column2) == true) break;    //¸¶Áö¸· Ä®·³ È®ÀÎ½Ã ¹İº¹¹® Å»Ãâ
 			reset(column);
 			ColumnNum++;
 		}
@@ -84,12 +84,12 @@ int main()
 			ColumnNum++;
 		}
 	}
-	//Last Column => ë§ˆì§€ë§‰ ì¹¼ëŸ¼ì„ ì „ë¶€ prime ë°°ì—´ë¡œ ì˜®ê¹€
+	//Last Column => ¸¶Áö¸· Ä®·³À» ÀüºÎ prime ¹è¿­·Î ¿Å±è
 	if (ColumnNum % 2 == 0)
 		LastPrime(column2, prime, &p);
 	else
 		LastPrime(column, prime, &p);
-	//prime ë°°ì—´ì— ì €ì¥ëœ ëª¨ë“  prime implicantë¥¼ ì¶œë ¥
+	//prime ¹è¿­¿¡ ÀúÀåµÈ ¸ğµç prime implicant¸¦ Ãâ·Â
 	ShowPrime(prime);
 
 
@@ -97,31 +97,31 @@ int main()
 	TMCount = t_row;
 	PICount = p;
 
-	/* ê°œìˆ˜ë³„ë¡œ ë™ì í• ë‹¹ */
+	/* °³¼öº°·Î µ¿ÀûÇÒ´ç */
 	TMRow = new string[TMCount];
 	PIColumn = new string[PICount];
 	EssentialPI = new string[PICount];
 
-	/* PI ì…ë ¥ */
+	/* PI ÀÔ·Â */
 	for (int i = 0; i < PICount; i++)
 	{
 		PIColumn[i] = prime[i];
 	}
 
-	/* TM ì…ë ¥ */
+	/* TM ÀÔ·Â */
 	for (int i = 0; i < TMCount; i++)
 	{
 		TMRow[i] = true_minterm[i];
 	}
 
-	/* PITable ë§Œë“¤ê¸° */
-	PITable = new int* [PICount + 1];   //ë§ˆì§€ë§‰ í™•ì¸ìš© í–‰ ë•Œë¬¸ì— + 1
+	/* PITable ¸¸µé±â */
+	PITable = new int* [PICount + 1];   //¸¶Áö¸· È®ÀÎ¿ë Çà ¶§¹®¿¡ + 1
 	for (int i = 0; i < PICount + 1; i++)
 	{
 		PITable[i] = new int[TMCount];
 	}
 
-	/* PITable ì „ë¶€ 0ìœ¼ë¡œ ì´ˆê¸°í™” */
+	/* PITable ÀüºÎ 0À¸·Î ÃÊ±âÈ­ */
 	for (int i = 0; i < PICount + 1; i++)
 	{
 		for (int j = 0; j < TMCount; j++)
@@ -130,14 +130,14 @@ int main()
 		}
 	}
 
-	/* TMê³¼ PI ë¹„êµí•´ì„œ í…Œì´ë¸” í‘œì‹œ (O : 0, X : 1) */
-	/* ì—¬ê¸° ì²«ë²ˆì§¸ ì—´ ë¹¼ê³¤ ì¶œë ¥ ì œëŒ€ë¡œ ì•ˆ ë˜ì–´ì„œ ê³ ì³ì•¼ í•¨ */
+	/* TM°ú PI ºñ±³ÇØ¼­ Å×ÀÌºí Ç¥½Ã (O : 0, X : 1) */
+	/* ¿©±â Ã¹¹øÂ° ¿­ »©°ï Ãâ·Â Á¦´ë·Î ¾È µÇ¾î¼­ °íÃÄ¾ß ÇÔ */
 	for (int i = 0; i < PICount; i++)
 	{
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //ì»´íŒŒì¼ì— ë¬¸ì œëŠ” ì—†ì§€ë§Œ error c4018ì´ ëœ¨ëŠ” ê²Œ ì‹ ê²½ì“°ì—¬ì„œ ê³ ì³ë†“ìŒ. 407ì—´, 421ì—´ë„ ë§ˆì°¬ê°€ì§€
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //ÄÄÆÄÀÏ¿¡ ¹®Á¦´Â ¾øÁö¸¸ error c4018ÀÌ ¶ß´Â °Ô ½Å°æ¾²¿©¼­ °íÃÄ³õÀ½. 407¿­, 421¿­µµ ¸¶Âù°¡Áö
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;
 				else if (PIColumn[i][k] == '-') count++;
@@ -146,7 +146,7 @@ int main()
 		}
 	}
 
-	/* ê²€í† ìš© ì¶œë ¥ */
+	/* °ËÅä¿ë Ãâ·Â */
 	cout << endl;
 	for (int i = 0; i < PICount + 1; i++)
 	{
@@ -172,13 +172,13 @@ int main()
 			}
 		}
 
-		/* 1ì´ í•˜ë‚˜ë§Œ ìˆê³  í™•ì¸ìš© í–‰ì— 1ì´ í‘œê¸°ê°€ ì•ˆ ëœ ê²½ìš° : ê·¸ í–‰ì— ëŒ€í•­í•˜ëŠ” PIë¥¼ EPIì— ì €ì¥í•˜ê³  í™•ì¸ìš©í–‰ì— 1 í‘œê¸°*/
+		/* 1ÀÌ ÇÏ³ª¸¸ ÀÖ°í È®ÀÎ¿ë Çà¿¡ 1ÀÌ Ç¥±â°¡ ¾È µÈ °æ¿ì : ±× Çà¿¡ ´ëÇ×ÇÏ´Â PI¸¦ EPI¿¡ ÀúÀåÇÏ°í È®ÀÎ¿ëÇà¿¡ 1 Ç¥±â*/
 		if (OneCount == 1 && PITable[PICount][i] != 1)
 		{
 			EssentialPI[EssentialPICount++] = PIColumn[PIRowIdx];
 			for (int k = 0; k < TMCount; k++)
 			{
-				/* í–‰ í™•ì¸í•´ì„œ 1 ì í˜€ìˆìœ¼ë©´ í™•ì¸í–‰ì— 1 í‘œì‹œ */
+				/* Çà È®ÀÎÇØ¼­ 1 ÀûÇôÀÖÀ¸¸é È®ÀÎÇà¿¡ 1 Ç¥½Ã */
 				if (PITable[PIRowIdx][k] == 1)
 				{
 					for (int w = 0; w < PICount; w++)
@@ -188,7 +188,7 @@ int main()
 				}
 			}
 		}
-	
+
 	}
 
 
@@ -222,9 +222,9 @@ int main()
 				CoverCount++;
 			}
 		}
-		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
 		if (CoverCount == TMCount)
 			break;
+		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
 	}
 	for (int i = 0; i < PICount + 1; i++)
 	{
@@ -257,7 +257,7 @@ int main()
 	delete[] PITable;
 	return 0;
 }
-bool CheckFinish(string* column) // ë§ˆì§€ë§‰ ì¹¼ëŸ¼ í™•ì¸ í•¨ìˆ˜
+bool CheckFinish(string* column) // ¸¶Áö¸· Ä®·³ È®ÀÎ ÇÔ¼ö
 {
 	for (int i = 0; column[i].empty() != true; i++)
 	{
@@ -278,11 +278,11 @@ bool CheckFinish(string* column) // ë§ˆì§€ë§‰ ì¹¼ëŸ¼ í™•ì¸ í•¨ìˆ˜
 	return true;
 
 }
-bool CheckSame(string* column2, string* column, int line, int row) // ì¤‘ë³µ í™•ì¸ í•¨ìˆ˜
+bool CheckSame(string* column2, string* column, int line, int row) // Áßº¹ È®ÀÎ ÇÔ¼ö
 {
 	for (int i = 0; i < row; i++)
 	{
-		if (column2[i].compare(column[line]) == 0) //ê°™ì„ ë•Œ
+		if (column2[i].compare(column[line]) == 0) //°°À» ¶§
 			return false;
 	}
 	return true;
@@ -291,7 +291,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 {
 	int u = 0;
 	int i, j;
-	for (i = 0; column[i].empty() != true; i++)										//ìˆ˜ì • í•„ìš”
+	for (i = 0; column[i].empty() != true; i++)										//¼öÁ¤ ÇÊ¿ä
 		usage[i] = 0;
 	for (i = 0; column[i].empty() != true; i++)
 	{
@@ -314,7 +314,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 			{
 				char ch = column[i][index];
 				column[i][index] = '-';
-				if (CheckSame(column2, column, i, u) == true) { //ë‹¤ë¥¼ ë•Œ
+				if (CheckSame(column2, column, i, u) == true) { //´Ù¸¦ ¶§
 					column2[u] = column[i];
 					u++;
 				}
@@ -330,7 +330,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 	return 0;
 }
 void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
-	//p=prime implicantì˜ ê°¯ìˆ˜
+	//p=prime implicantÀÇ °¹¼ö
 	cout << endl << "Prime From Column" << endl;
 	for (int i = 0; real_column[i].empty() != true; i++) {
 		if (usage[i] == 0) {
@@ -394,7 +394,7 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //ì—¬ê¸°ë„ int -> unsigned int (error c4018 í•´ê²°)
+		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //¿©±âµµ int -> unsigned int (error c4018 ÇØ°á)
 		{
 			if (EssentialPI[i][j] == '1' || EssentialPI[i][j] == '0') ACount++;
 		}
@@ -408,14 +408,14 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	int NCount = 0;
 	int* CheckNot = new int[EssentialPI[0].length()];
 
-	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
+	for (int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		CheckNot[i] = 0;
 	}
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (unsigned int j = 0; j < EssentialPI[0].length(); j++)
+		for (int j = 0; j < EssentialPI[0].length(); j++)
 		{
 			if (EssentialPI[i][j] == '0')
 			{
@@ -424,7 +424,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 		}
 	}
 
-	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
+	for (int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		NCount += CheckNot[i];
 	}
