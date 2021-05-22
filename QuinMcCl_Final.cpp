@@ -89,7 +89,7 @@ int main()
 	//prime 배열에 저장된 모든 prime implicant를 출력
 	ShowPrime(prime);
 
-
+	//Essential PI 구하기
 
 	TMCount = t_row;
 	PICount = p;
@@ -219,9 +219,7 @@ int main()
 	
 	/* 모든 EPI들을 temp에 저장*/
 	for (int i = 0; i < EssentialPICount; i++)
-	{
 		temp += (EssentialPI[i] + '\n');
-	}
 	temp += "\nCost(# of transistors) : ";  /* 트랜지스터 개수 출력 안내 메세지도 temp에 이어서 저장 */
 	writeResult.write(temp.c_str(), temp.size()); /* temp에 모아놨던 값들 출력 */
 	writeResult << MakeTransNum(EssentialPICount, EssentialPI);  /* 트랜지스터 개수 출력 */
@@ -230,9 +228,8 @@ int main()
 
 	/* 동적할당했던 메모리들 해제 */
 	for (int i = 0; i < PICount + 1; i++)
-	{
 		delete[] PITable[i];
-	}
+
 	delete[] column;
 	delete[] column2;
 	delete[] prime;
@@ -244,6 +241,7 @@ int main()
 	delete[] PITable;
 	return 0;
 }
+
 bool CheckFinish(string* column) // 마지막 칼럼 확인 함수
 {
 	for (int i = 0; column[i].empty() != true; i++)
@@ -258,13 +256,14 @@ bool CheckFinish(string* column) // 마지막 칼럼 확인 함수
 				if (hamm > 1)
 					break;
 			}
-			if (hamm == 1)
+			if (hamm == 1) //= 더 줄일 수 있다 = 마지막 column이 아니다
 				return false;
 		}
 	}
-	return true;
+	return true; //이 경우 해당 함수가 마지막이므로 LastPrime으로 넘어감
 
 }
+
 bool CheckSame(string* column2, string* column, int line, int row) // 중복 확인 함수
 {
 	for (int i = 0; i < row; i++)
@@ -274,6 +273,7 @@ bool CheckSame(string* column2, string* column, int line, int row) // 중복 확
 	}
 	return true;
 }
+
 int MakeColumn(string* column2, string* column, int* usage)
 {
 	int u = 0;
@@ -301,7 +301,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 			{
 				char ch = column[i][index];
 				column[i][index] = '-';
-				if (CheckSame(column2, column, i, u) == true) { //다를 때
+				if (CheckSame(column2, column, i, u) == true) { //다를 때만 복사함.
 					column2[u] = column[i];
 					u++;
 				}
@@ -313,6 +313,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 	}
 	return 0;
 }
+
 void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
 	//p=prime implicant의 갯수
 	for (int i = 0; real_column[i].empty() != true; i++) {
@@ -322,16 +323,19 @@ void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
 		}
 	}
 }
+
 void reset(string* column) { //다음 column 이동 (여기서는 column2->column) 을 원활하게 하기 위해 column을 초기화. usage는 MakeColumn에서 초기화하니 여기선 패스.
 	for (int i = 0; column[i].empty() != true; i++)
 		column[i].clear();
 }
+
 void LastPrime(string* column, string* prime, int* p) { //마지막 column은 통째로 prime 배열로 옮겨준다
 	for (int i = 0; column[i].empty() != true; i++) {
 		prime[*p] = column[i];
 		(*p)++;
 	}
 }
+
 void ShowPrime(string* prime) { //prime implicant 출력
 	cout << endl << "Prime Implicant" << endl;
 	for (int i = 0; prime[i].empty() != true; i++)
@@ -393,9 +397,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	
 	/* 배열을 0으로 초기화 */
 	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
-	{
 		CheckNot[i] = 0;
-	}
 
 	/* EPI를 체크하여 0이 사용되었는지 확인한 후 
 	사용되었으면 거기에 해당하는 자리를 배열에 표시함 */
