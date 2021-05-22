@@ -13,7 +13,6 @@ void reset(string*);
 bool CheckFinish(string*);
 bool CheckSame(string*, string*, int, int);
 void LastPrime(string*, string*, int*);
-void ShowPrime(string*);
 bool CheckBreak(int**, int, int);
 
 int CheckNumberOne(int*, int);
@@ -58,17 +57,12 @@ int main()
 		}
 	}
 	fin.close();
-	cout << "column" << endl;
-	for (int i = 0; column[i].empty() != true; i++)
-		cout << column[i] << endl;
-	cout << endl;
 	int ColumnNum = 0;
 	int p = 0; //prime implicant 갯수
 	while (1)
 	{
 		if (ColumnNum % 2 == 0)
 		{
-			cout << endl << "Column " << ColumnNum + 2 << endl;
 			MakeColumn(column2, column, usage);
 			CopyPrime(prime, column, usage, &p);
 			if (CheckFinish(column2) == true) break;    //마지막 칼럼 확인시 반복문 탈출
@@ -77,7 +71,6 @@ int main()
 		}
 		else
 		{
-			cout << endl << "Column " << ColumnNum + 2 << endl;
 			MakeColumn(column, column2, usage);
 			CopyPrime(prime, column2, usage, &p);
 			if (CheckFinish(column) == true) break;
@@ -90,11 +83,6 @@ int main()
 		LastPrime(column2, prime, &p);
 	else
 		LastPrime(column, prime, &p);
-	//prime 배열에 저장된 모든 prime implicant를 출력
-	ShowPrime(prime);
-
-
-
 	TMCount = t_row;
 	PICount = p;
 
@@ -146,18 +134,6 @@ int main()
 			if (count == PIColumn[i].length()) PITable[i][j] = 1;
 		}
 	}
-
-	/* 검토용 출력 */
-	cout << endl;
-	for (int i = 0; i < PICount + 1; i++)
-	{
-		for (int j = 0; j < TMCount; j++)
-		{
-			cout << PITable[i][j];
-		}
-		cout << endl;
-	}
-	cout << endl;
 	for (int i = 0; i < TMCount; i++)
 	{
 		int PIRowIdx, PIColumnIdx;
@@ -189,9 +165,6 @@ int main()
 		}
 
 	}
-
-
-	cout << endl;
 	while (1)
 	{
 		if (CheckBreak(PITable, PICount, TMCount) == true)break;
@@ -224,21 +197,20 @@ int main()
 
 		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
 	}
-	for (int i = 0; i < PICount + 1; i++)
-	{
-		for (int j = 0; j < TMCount; j++)
-		{
-			cout << PITable[i][j];
-		}
-		cout << endl;
-	}
+	MakeTransNum(EssentialPICount, EssentialPI);
+
+	ofstream writeResult;
+	writeResult.open("result.txt");
+	string temp;
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		cout << endl;
-		cout << EssentialPI[i];
+		temp += (EssentialPI[i] + '\n');
 	}
-	cout << endl << "Cost(# of transistors) : " << MakeTransNum(EssentialPICount, EssentialPI) << endl;
+	temp += "Cost(# of transistors) : ";
+	writeResult.write(temp.c_str(), temp.size());
+	writeResult << MakeTransNum(EssentialPICount, EssentialPI);
 
+	writeResult.close();
 	for (int i = 0; i < PICount + 1; i++)
 	{
 		delete[] PITable[i];
@@ -321,19 +293,13 @@ int MakeColumn(string* column2, string* column, int* usage)
 			}
 		}
 	}
-	for (i = 0; i < u; i++)
-		cout << column2[i] << endl;
-	cout << endl;
 	return 0;
 }
 void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
 	//p=prime implicant의 갯수
-	cout << endl << "Prime From Column" << endl;
 	for (int i = 0; real_column[i].empty() != true; i++) {
 		if (usage[i] == 0) {
 			prime[*p] = real_column[i];
-			cout << prime[*p];
-			cout << endl;
 			(*p)++;
 		}
 	}
@@ -345,20 +311,9 @@ void reset(string* column) {
 	}
 }
 void LastPrime(string* column, string* prime, int* p) {
-	cout << endl << "Last Prime" << endl;
 	for (int i = 0; column[i].empty() != true; i++) {
 		prime[*p] = column[i];
-		cout << prime[*p];
-		cout << endl;
 		(*p)++;
-	}
-}
-void ShowPrime(string* prime) {
-	cout << endl << "Prime Implicant" << endl;
-	for (int i = 0; prime[i].empty() != true; i++)
-	{
-		cout << prime[i];
-		cout << endl;
 	}
 }
 
