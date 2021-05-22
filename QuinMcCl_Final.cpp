@@ -214,18 +214,21 @@ int main()
 	//결과 파일 result.txt 출력
 
 	ofstream writeResult;
-	writeResult.open("result.txt");
-	string temp;
+	writeResult.open("result.txt");  // 값을 출력할 파일 오픈
+	string temp;  // 출력할 값을 저장할 string
+	
+	/* 모든 EPI들을 temp에 저장*/
 	for (int i = 0; i < EssentialPICount; i++)
 	{
 		temp += (EssentialPI[i] + '\n');
 	}
-	temp += "\nCost(# of transistors) : ";
-	writeResult.write(temp.c_str(), temp.size());
-	writeResult << MakeTransNum(EssentialPICount, EssentialPI);
+	temp += "\nCost(# of transistors) : ";  /* 트랜지스터 개수 출력 안내 메세지도 temp에 이어서 저장 */
+	writeResult.write(temp.c_str(), temp.size()); /* temp에 모아놨던 값들 출력 */
+	writeResult << MakeTransNum(EssentialPICount, EssentialPI);  /* 트랜지스터 개수 출력 */
 
-	writeResult.close();
+	writeResult.close();  // 파일 폐쇄 
 
+	/* 동적할당했던 메모리들 해제 */
 	for (int i = 0; i < PICount + 1; i++)
 	{
 		delete[] PITable[i];
