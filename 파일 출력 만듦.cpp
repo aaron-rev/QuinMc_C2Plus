@@ -246,7 +246,7 @@ int main()
 	{
 		temp += (EssentialPI[i] + '\n');
 	}
-	temp += "Cost(# of transistors) : ";
+	temp += "\Cost(# of transistors) : ";
 	writeResult.write(temp.c_str(), temp.size());
 	writeResult << MakeTransNum(EssentialPICount, EssentialPI);
 
