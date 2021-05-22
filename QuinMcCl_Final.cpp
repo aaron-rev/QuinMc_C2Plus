@@ -378,16 +378,24 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 	return ACount * 2 + 2 * EssentialPICount;  // 트랜지스터의 개수를 계산하여 리턴 
 }
 
+/*****************************************************************************************
+	NOT 게이트 트랜지스터 개수 구하는 함수
+	각 EPI 자릿수에 0이 사용되었는지 확인한 수 
+	사용된 자릿수의 개수 * 2를 리턴
+******************************************************************************************/
 int CheckNot(int EssentialPICount, string* EssentialPI)
 {
-	int NCount = 0;
-	int* CheckNot = new int[EssentialPI[0].length()];
-
+	int NCount = 0;  //체크된 자리 개수를 셀 변수
+	int* CheckNot = new int[EssentialPI[0].length()];  // 자릿수 체크할 배열을 동적할당
+	
+	/* 배열을 0으로 초기화 */
 	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		CheckNot[i] = 0;
 	}
 
+	/* EPI를 체크하여 0이 사용되었는지 확인한 후 
+	사용되었으면 거기에 해당하는 자리를 배열에 표시함 */
 	for (int i = 0; i < EssentialPICount; i++)
 	{
 		for (unsigned int j = 0; j < EssentialPI[0].length(); j++) //int -> unsigned int (error c4018 해결)
@@ -397,9 +405,10 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 		}
 	}
 
+	/* 표기된 자리 개수를 셈 */
 	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 		NCount += CheckNot[i];
-	delete[] CheckNot;
+	delete[] CheckNot;  // 동적할당한 배열 메모리 해제
 	return NCount * 2;  // 트랜지스터의 개수를 계산하여 리턴 
 }
 
