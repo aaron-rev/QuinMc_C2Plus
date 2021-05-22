@@ -347,28 +347,35 @@ int CheckNumberOne(int* PITableRow, int TMCount)
 	return count;
 }
 
+/* 트랜지스터의 개수를 구하는 함수 */
 int MakeTransNum(int EssentialPICount, string* EssentialPI)
 {
 	int A, O, N; // and, or, not
 
-	O = EssentialPICount * 2 + 2;
-	A = CheckAnd(EssentialPICount, EssentialPI);
-	N = CheckNot(EssentialPICount, EssentialPI);
+	O = EssentialPICount * 2 + 2;                  // input의 개수가 EPI의 개수와 동일하므로 NOR gate 트랜지스터 개수 (EPICount * 2)개, NOT gate 트랜지스터 개수 2개
+	A = CheckAnd(EssentialPICount, EssentialPI);   //함수에서 AND 게이트 트랜지스터 개수를 계산하여 A에 저장
+	N = CheckNot(EssentialPICount, EssentialPI);   //함수에서 NOT 게이트 트랜지스터 개수를 계산하여 N에 저장
 
-	return O + A + N;
+	return O + A + N;    // 위에서 계산한 트랜지스터 개수의 합을 리턴
 }
 
-int CheckAnd(int EssentialPICount, string* EssentialPI)
+/*****************************************************************************************
+	AND 게이트 트랜지스터 개수 구하는 함수
+	각 EPI에서 ('-'이 아닌 값의 개수) * 2 + 2의 합을 구함
+	이것은 전체 EPI에서 ('-'이 아닌 값의 개수) * 2 + 2 * (EPI의 개수)를 한 것과 동일하다
+******************************************************************************************/
+int CheckAnd(int EssentialPICount, string* EssentialPI) 
 {
-	int ACount = 0;
+	int ACount = 0;  //'0'과 '1'의 개수를 저장할 변수
 
+	/* 전체 EPI에서 '0'과 '1'의 개수를 세어서 ACount에 저장 */
 	for (int i = 0; i < EssentialPICount; i++)
 	{
 		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //int -> unsigned int (error c4018 해결)
 			if (EssentialPI[i][j] == '1' || EssentialPI[i][j] == '0') ACount++;
 	}
 
-	return ACount * 2 + 2 * EssentialPICount;
+	return ACount * 2 + 2 * EssentialPICount;  // 트랜지스터의 개수를 계산하여 리턴 
 }
 
 int CheckNot(int EssentialPICount, string* EssentialPI)
@@ -393,7 +400,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 		NCount += CheckNot[i];
 	delete[] CheckNot;
-	return NCount * 2;
+	return NCount * 2;  // 트랜지스터의 개수를 계산하여 리턴 
 }
 
 bool CheckBreak(int** PIT, int CheckPI, int n)
