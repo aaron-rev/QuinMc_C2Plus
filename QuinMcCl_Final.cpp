@@ -38,9 +38,7 @@ int main()
 
 	ifstream fin("input_minterm.txt");
 	if (!fin.is_open())
-	{
 		cout << "false" << endl;
-	}
 	while (!fin.eof())
 	{
 		getline(fin, line);
@@ -286,7 +284,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 {
 	int u = 0;
 	int i, j;
-	for (i = 0; column[i].empty() != true; i++)										//수정 필요
+	for (i = 0; column[i].empty() != true; i++)
 		usage[i] = 0;
 	for (i = 0; column[i].empty() != true; i++)
 	{
