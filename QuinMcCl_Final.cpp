@@ -24,8 +24,8 @@ bool CheckBreak(int**, int, int);
 int main()
 {
 	string line;
-	string* column = new string[1000];
-	string* column2 = new string[1000];
+	string* column = new string[1000]; //홀수번 칼럼
+	string* column2 = new string[1000]; //짝수번 칼럼
 	string* prime = new string[1000];
 	int* usage = new int[1000]; //column의 각 행의 사용횟수를 측정. 0인 행은 prime implicant로 옮겨주면 됨.
 	string* true_minterm = new string[1000];
@@ -101,30 +101,22 @@ int main()
 
 	/* PI 입력 */
 	for (int i = 0; i < PICount; i++)
-	{
 		PIColumn[i] = prime[i];
-	}
 
 	/* TM 입력 */
 	for (int i = 0; i < TMCount; i++)
-	{
 		TMRow[i] = true_minterm[i];
-	}
 
 	/* PITable 만들기 */
 	PITable = new int*[PICount + 1];   //마지막 확인용 행 때문에 + 1
 	for (int i = 0; i < PICount + 1; i++)
-	{
 		PITable[i] = new int[TMCount];
-	}
 
 	/* PITable 전부 0으로 초기화 */
 	for (int i = 0; i < PICount + 1; i++)
 	{
 		for (int j = 0; j < TMCount; j++)
-		{
 			PITable[i][j] = 0;
-		}
 	}
 
 	/* TM과 PI 비교해서 테이블 표시 (O : 0, X : 1) */
@@ -134,7 +126,7 @@ int main()
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //컴파일에 문제는 없지만 error c4018이 뜨는 게 신경쓰여서 고쳐놓음. 407열, 421열도 마찬가지
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //컴파일에 문제는 없지만 error c4018이 뜨는 게 신경쓰여서 고쳐놓음. 369열, 388열도 마찬가지
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;
 				else if (PIColumn[i][k] == '-') count++;
@@ -220,7 +212,7 @@ int main()
 
 	cout << endl << "Cost(# of transistors) : " << MakeTransNum(EssentialPICount, EssentialPI) << endl;
 
-	//result.txt 파일 출력
+	//결과 파일 result.txt 출력
 
 	ofstream writeResult;
 	writeResult.open("result.txt");
@@ -303,7 +295,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 				if (hamm > 1)
 					break;
 			}
-			if (hamm == 1)
+			if (hamm == 1) //이 경우 비교한 두 열에서 차이 나는 곳만 '-'로 바꿔서 다음 column으로 넘어감
 			{
 				char ch = column[i][index];
 				column[i][index] = '-';
@@ -328,19 +320,17 @@ void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
 		}
 	}
 }
-void reset(string* column) {
+void reset(string* column) { //다음 column 이동 (여기서는 column2->column) 을 원활하게 하기 위해 column을 초기화. usage는 MakeColumn에서 초기화하니 여기선 패스.
 	for (int i = 0; column[i].empty() != true; i++)
-	{
 		column[i].clear();
-	}
 }
-void LastPrime(string* column, string* prime, int* p) {
+void LastPrime(string* column, string* prime, int* p) { //마지막 column은 통째로 prime 배열로 옮겨준다
 	for (int i = 0; column[i].empty() != true; i++) {
 		prime[*p] = column[i];
 		(*p)++;
 	}
 }
-void ShowPrime(string* prime) {
+void ShowPrime(string* prime) { //prime implicant 출력
 	cout << endl << "Prime Implicant" << endl;
 	for (int i = 0; prime[i].empty() != true; i++)
 	{
@@ -353,9 +343,7 @@ int CheckNumberOne(int* PITableRow, int TMCount)
 {
 	int count = 0;
 	for (int i = 0; i < TMCount; i++)
-	{
 		if (PITableRow[i] == 1) count++;
-	}
 
 	return count;
 }
@@ -378,10 +366,8 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //여기도 int -> unsigned int (error c4018 해결)
-		{
+		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //int -> unsigned int (error c4018 해결)
 			if (EssentialPI[i][j] == '1' || EssentialPI[i][j] == '0') ACount++;
-		}
 	}
 
 	return ACount * 2 + 2 * EssentialPICount;
@@ -399,19 +385,15 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (unsigned int j = 0; j < EssentialPI[0].length(); j++)
+		for (unsigned int j = 0; j < EssentialPI[0].length(); j++) //int -> unsigned int (error c4018 해결)
 		{
 			if (EssentialPI[i][j] == '0')
-			{
 				CheckNot[j] = 1;
-			}
 		}
 	}
 
 	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
-	{
 		NCount += CheckNot[i];
-	}
 	delete[] CheckNot;
 	return NCount * 2;
 }
