@@ -120,7 +120,6 @@ int main()
 	}
 
 	/* TM과 PI 비교해서 테이블 표시 (O : 0, X : 1) */
-	/* 여기 첫번째 열 빼곤 출력 제대로 안 되어서 고쳐야 함 */
 	for (int i = 0; i < PICount; i++)
 	{
 		for (int j = 0; j < TMCount; j++)
@@ -351,7 +350,6 @@ int CheckNumberOne(int* PITableRow, int TMCount)
 int MakeTransNum(int EssentialPICount, string* EssentialPI)
 {
 	int A, O, N; // and, or, not
-	int NCount = 0;
 
 	O = EssentialPICount * 2 + 2;
 	A = CheckAnd(EssentialPICount, EssentialPI);
