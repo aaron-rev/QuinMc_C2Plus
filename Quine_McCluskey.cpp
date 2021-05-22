@@ -14,6 +14,7 @@ bool CheckFinish(string*);
 bool CheckSame(string*, string*, int, int);
 void LastPrime(string*, string*, int*);
 void ShowPrime(string*);
+bool CheckBreak(int**, int, int);
 
 int CheckNumberOne(int*, int);
 int MakeTransNum(int, string*);
@@ -157,7 +158,6 @@ int main()
 		cout << endl;
 	}
 	cout << endl;
-	int CoverCount = 0;
 	for (int i = 0; i < TMCount; i++)
 	{
 		int PIRowIdx, PIColumnIdx;
@@ -184,7 +184,6 @@ int main()
 					for (int w = 0; w < PICount; w++)
 						PITable[w][k] = 0;
 					PITable[PICount][k] = 1;
-					CoverCount++;
 				}
 			}
 		}
@@ -195,6 +194,7 @@ int main()
 	cout << endl;
 	while (1)
 	{
+		if (CheckBreak(PITable, PICount, TMCount) == true)break;
 		int MaxOne = 0;
 		int MaxIndex = 0;
 		int Count_1;
@@ -219,11 +219,9 @@ int main()
 				for (int w = 0; w < PICount; w++)
 					PITable[w][i] = 0;
 				PITable[PICount][i] = 1;
-				CoverCount++;
 			}
 		}
-		if (CoverCount == TMCount)
-			break;
+
 		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
 	}
 	for (int i = 0; i < PICount + 1; i++)
@@ -239,7 +237,6 @@ int main()
 		cout << endl;
 		cout << EssentialPI[i];
 	}
-
 	cout << endl << "Cost(# of transistors) : " << MakeTransNum(EssentialPICount, EssentialPI) << endl;
 
 	for (int i = 0; i < PICount + 1; i++)
@@ -430,4 +427,13 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	}
 	delete[] CheckNot;
 	return NCount * 2;
+}
+bool CheckBreak(int** PIT, int CheckPI, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (PIT[CheckPI][i] != 1)
+			return false;
+	}
+	return true;
 }
