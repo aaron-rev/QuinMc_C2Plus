@@ -15,11 +15,11 @@ bool CheckSame(string*, string*, int, int);
 void LastPrime(string*, string*, int*);
 void ShowPrime(string*);
 
-int CheckBreak(int[], int);
 int CheckNumberOne(int*, int);
 int MakeTransNum(int, string*);
 int CheckAnd(int, string*);
 int CheckNot(int, string*);
+bool CheckBreak(int**, int, int);
 
 int main()
 {
@@ -68,7 +68,6 @@ int main()
 	{
 		if (ColumnNum % 2 == 0)
 		{
-			cout << endl << "Column " << ColumnNum + 2 << endl;
 			MakeColumn(column2, column, usage);
 			CopyPrime(prime, column, usage, &p);
 			if (CheckFinish(column2) == true) break;    //마지막 칼럼 확인시 반복문 탈출
@@ -77,7 +76,6 @@ int main()
 		}
 		else
 		{
-			cout << endl << "Column " << ColumnNum + 2 << endl;
 			MakeColumn(column, column2, usage);
 			CopyPrime(prime, column2, usage, &p);
 			if (CheckFinish(column) == true) break;
@@ -138,7 +136,7 @@ int main()
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (int k = 0; k < PIColumn[i].length(); k++)
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //컴파일에 문제는 없지만 error c4018이 뜨는 게 신경쓰여서 고쳐놓음. 407열, 421열도 마찬가지
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;
 				else if (PIColumn[i][k] == '-') count++;
@@ -147,86 +145,73 @@ int main()
 		}
 	}
 
-	/* 검토용 출력 */
-	cout << endl;
-	for (int i = 0; i < PICount + 1; i++)
+	int CoverCount = 0;
+	for (int i = 0; i < TMCount; i++)
 	{
-		for (int j = 0; j < TMCount; j++)
+		int PIRowIdx, PIColumnIdx;
+		int OneCount = 0;
+		for (int j = 0; j < PICount; j++)
 		{
-			cout << PITable[i][j];
-		}
-		cout << endl;
-	}
-
-	while (1)
-	{
-		/* 열을 확인해서 1이 하나만 있는 열이 있는 경우 PI로 저장 */
-		for (int i = 0; i < TMCount; i++)
-		{
-			int PIRowIdx, PIColumnIdx;
-			int OneCount = 0;
-			for (int j = 0; j < PICount; j++)
+			if (PITable[j][i] == 1)
 			{
-				if (PITable[j][i] == 1)
+				OneCount++;
+				PIRowIdx = j;
+				PIColumnIdx = i;
+			}
+		}
+
+		/* 1이 하나만 있고 확인용 행에 1이 표기가 안 된 경우 : 그 행에 대항하는 PI를 EPI에 저장하고 확인용행에 1 표기*/
+		if (OneCount == 1 && PITable[PICount][i] != 1)
+		{
+			EssentialPI[EssentialPICount++] = PIColumn[PIRowIdx];
+			for (int k = 0; k < TMCount; k++)
+			{
+				/* 행 확인해서 1 적혀있으면 확인행에 1 표시 */
+				if (PITable[PIRowIdx][k] == 1)
 				{
-					OneCount++;
-					PIRowIdx = j;
-					PIColumnIdx = i;
+					for (int w = 0; w < PICount; w++)
+						PITable[w][k] = 0;
+					PITable[PICount][k] = 1;
+					CoverCount++;
 				}
 			}
+		}
 
-			/* 1이 하나만 있고 확인용 행에 1이 표기가 안 된 경우 : 그 행에 대항하는 PI를 EPI에 저장하고 확인용행에 1 표기*/
-			if ((OneCount == 1) && (PITable[PICount][i] != 1))
+	}
+
+
+	cout << endl;
+	while (1)
+	{
+		if (CheckBreak(PITable, PICount, TMCount) == true)break;
+		int MaxOne = 0;
+		int MaxIndex = 0;
+		int Count_1;
+		for (int i = 0; i < PICount; i++)
+		{
+			Count_1 = 0;
+			for (int j = 0; j < TMCount; j++)
 			{
-				EssentialPI[EssentialPICount++] = PIColumn[PIRowIdx];
-				for (int k = 0; k < TMCount; k++)
-				{
-					/* 행 확인해서 1 적혀있으면 확인행에 1 표시 */
-					if (PITable[PIRowIdx][k] == 1)
-					{
-						PITable[PICount][k] = 1;
-					}
-				}
+				if (PITable[i][j] == 1)
+					Count_1++;
+			}
+			if (Count_1 > MaxOne)
+			{
+				MaxOne = Count_1;
+				MaxIndex = i;
+			}
+		}
+		for (int i = 0; i < TMCount; i++)
+		{
+			if (PITable[MaxIndex][i] == 1)
+			{
+				for (int w = 0; w < PICount; w++)
+					PITable[w][i] = 0;
 				PITable[PICount][i] = 1;
 			}
 		}
-		/* 검토용 출력 */
-		cout << endl;
-		for (int i = 0; i < PICount + 1; i++)
-		{
-			for (int j = 0; j < TMCount; j++)
-			{
-				cout << PITable[i][j];
-			}
-			cout << endl;
-		}
 
-		if (CheckBreak(PITable[PICount], TMCount) == 1) break; // 확인용행의 합이 TM의 개수와 같아지면 break
-
-		/* 1이 하나만 있는 열이 없는 경우 */
-		/* 행을 체크해서 가장 1이 많이 있는 행의 PI를 EPI에 저장 */
-		int max = 0;
-		int maxIdx = 0;
-		for (int i = 0; i < PICount; i++)
-		{
-			if (CheckNumberOne(PITable[i], TMCount) > max)
-			{
-				max = CheckNumberOne(PITable[i], TMCount);
-				maxIdx = i;
-			}
-			EssentialPI[EssentialPICount++] = PIColumn[maxIdx];
-
-			/* 해당되는 1들을 확인행에 체크 */
-			for (int j = 0; j < TMCount; j++)
-			{
-				if (PITable[maxIdx][j] == 1)
-				{
-					PITable[PICount][i] = 1;
-				}
-			}
-		}
-
-		if (CheckBreak(PITable[PICount], TMCount) == 1) break; // 확인용행의 합이 TM의 개수와 같아지면 break
+		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
 	}
 
 	for (int i = 0; i < EssentialPICount; i++)
@@ -236,6 +221,21 @@ int main()
 	}
 
 	cout << endl << "Cost(# of transistors) : " << MakeTransNum(EssentialPICount, EssentialPI) << endl;
+
+	//result.txt 파일 출력
+
+	ofstream writeResult;
+	writeResult.open("result.txt");
+	string temp;
+	for (int i = 0; i < EssentialPICount; i++)
+	{
+		temp += (EssentialPI[i] + '\n');
+	}
+	temp += "\nCost(# of transistors) : ";
+	writeResult.write(temp.c_str(), temp.size());
+	writeResult << MakeTransNum(EssentialPICount, EssentialPI);
+
+	writeResult.close();
 
 	for (int i = 0; i < PICount + 1; i++)
 	{
@@ -319,42 +319,29 @@ int MakeColumn(string* column2, string* column, int* usage)
 			}
 		}
 	}
-	for (i = 0; i < u; i++)
-		cout << column2[i] << endl;
-	cout << endl;
 	return 0;
 }
-
 void CopyPrime(string* prime, string* real_column, int* usage, int* p) {
 	//p=prime implicant의 갯수
-	cout << endl << "Prime From Column" << endl;
 	for (int i = 0; real_column[i].empty() != true; i++) {
 		if (usage[i] == 0) {
 			prime[*p] = real_column[i];
-			cout << prime[*p];
-			cout << endl;
 			(*p)++;
 		}
 	}
 }
-
 void reset(string* column) {
 	for (int i = 0; column[i].empty() != true; i++)
 	{
 		column[i].clear();
 	}
 }
-
 void LastPrime(string* column, string* prime, int* p) {
-	cout << endl << "Last Prime" << endl;
 	for (int i = 0; column[i].empty() != true; i++) {
 		prime[*p] = column[i];
-		cout << prime[*p];
-		cout << endl;
 		(*p)++;
 	}
 }
-
 void ShowPrime(string* prime) {
 	cout << endl << "Prime Implicant" << endl;
 	for (int i = 0; prime[i].empty() != true; i++)
@@ -362,17 +349,6 @@ void ShowPrime(string* prime) {
 		cout << prime[i];
 		cout << endl;
 	}
-}
-
-int CheckBreak(int CheckRow[], int TMCount)  // PITable의 마지막 행과 TM 개수를 매개변수로 넘김.
-{
-	int sum = 0;
-	for (int i = 0; i < TMCount; i++)
-	{
-		sum += CheckRow[i];
-	}
-
-	return sum == TMCount;  //Sum == TMCount 이면 반복문 빠져나감.
 }
 
 int CheckNumberOne(int* PITableRow, int TMCount)
@@ -404,7 +380,7 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (int j = 0; j < EssentialPI[i].length(); j++)
+		for (unsigned int j = 0; j < EssentialPI[i].length(); j++) //여기도 int -> unsigned int (error c4018 해결)
 		{
 			if (EssentialPI[i][j] == '1' || EssentialPI[i][j] == '0') ACount++;
 		}
@@ -418,14 +394,14 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	int NCount = 0;
 	int* CheckNot = new int[EssentialPI[0].length()];
 
-	for (int i = 0; i < EssentialPI[0].length(); i++)
+	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		CheckNot[i] = 0;
 	}
 
 	for (int i = 0; i < EssentialPICount; i++)
 	{
-		for (int j = 0; j < EssentialPI[0].length(); j++)
+		for (unsigned int j = 0; j < EssentialPI[0].length(); j++)
 		{
 			if (EssentialPI[i][j] == '0')
 			{
@@ -434,10 +410,20 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 		}
 	}
 
-	for (int i = 0; i < EssentialPI[0].length(); i++)
+	for (unsigned int i = 0; i < EssentialPI[0].length(); i++)
 	{
 		NCount += CheckNot[i];
 	}
 	delete[] CheckNot;
 	return NCount * 2;
+}
+
+bool CheckBreak(int** PIT, int CheckPI, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (PIT[CheckPI][i] != 1)
+			return false;
+	}
+	return true;
 }
