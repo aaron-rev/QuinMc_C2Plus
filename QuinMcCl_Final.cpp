@@ -125,7 +125,7 @@ int main()
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //컴파일에 문제는 없지만 error c4018이 뜨는 게 신경쓰여서 고쳐놓음. 369열, 388열도 마찬가지
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //그냥 int로 선언해도 컴파일은 되지만 error c4018이 떠서 고쳐놓음. 381열, 406열도 마찬가지
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;
 				else if (PIColumn[i][k] == '-') count++;
