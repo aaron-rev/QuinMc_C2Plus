@@ -1,3 +1,14 @@
+행에 있는 1의 개수 세는 함수(1의 개수를 셀 행, 행의 요소 개수)
+{
+	count : 행의 1 개수를 저장할 함수
+	count <- 0으로 초기화
+	
+	for(행의 모든 요소를 확인함)
+		if(행의 요소 중 1이 존재) count <- count + 1
+
+	return count
+}
+
 전체 트랜지스터 개수를 구하는 함수(EssentialPI의 개수, EssentialPI 목록)
 {
 	A : AND게이트 트랜지스터 개수 저장할 변수 선언
