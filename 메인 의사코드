@@ -47,5 +47,83 @@ int main()
 
 	EssentialPI : Essential Prime Implicant 저장할 배열 선언;
 	PITable:커버 확인행을 포함한 PITable 2차원 배열 선언;
-	PITable을 0으로 초기화;
-	minterm을 커버하는 Prime Implicant를 PITable에 1로 마킹;
+
+	for (PITable 마지막 행까지)
+	{
+		for (PITable 마지막 열까지)
+			PITable 0으로 초기화;
+	}
+	for (PITable 마지막 행까지)
+	{
+		for (PITable 마지막 열까지)
+		{
+			int count = 0;
+			for (주항 비트 수 만큼)
+			{
+				if (주항 각 비트 == 트루민텀 각 비트)
+					count++;
+				else if (주항 비트 == '-')
+					count++;
+			}
+			if (count == 주항 비트 수)
+				PITable에 1 마킹;
+		}
+	}
+	for (트루민텀 갯수 만큼)
+	{
+		int PIRowIdx, PIColumnIdx;
+		OneCount:각 열에 1의 갯수 카운팅 해주는 변수 선언
+		for (주항 갯수 만큼)
+		{
+			if (PITable에 1이 마킹된 경우)
+				OneCount++;
+		}
+
+		if (OneCount == 1 이고 PITable 확인행에 체크 되지 않은 경우)
+		{
+			EssentialPI에 해당 주항 저장;
+			for (트루민텀 갯수만큼)
+			{
+				if (PITable 해당 열에 1이 마킹 돼있는 경우)
+				{
+					for (주항 갯수 만큼)
+						해당 열 0으로 초기화;
+					해당 열 확인행 체크;
+				}
+			}
+		}
+
+	}
+
+	while (1)
+	{
+		if (확인행 전부 체크 됐는지 확인하는 함수(PITable, 주항 갯수, 트루민텀 갯수) == true)break;
+		MaxOne:주항이 가장 많은 트루민텀 체크하는 갯수 변수 선언
+		MaxIndex:MaxOne에 해당하는 열 인덱스 저장 변수 선언
+		Count_1:주항이 트루민텀 체크하는 갯수 변수 선언
+		for (i<주항 갯수)	//PIT확인행 체크된 열 초기화 후 남은 열 중 비교
+		{
+			Count_1 = 0;
+			for (j<트루민텀 갯수)
+			{
+				if (PITable[i][j] == 1)   //1의 갯수 체크
+					Count_1++;
+			}
+			if (Count_1 > MaxOne)		//가장 많은 1의 갯수 체크
+			{
+				MaxOne = Count_1;
+				MaxIndex = i;
+			}
+		}
+		for (i<트루민텀 갯수 만큼)
+		{
+			if (PITable[MaxIndex][i] == 1)
+			{
+				for (주항 갯수 만큼)
+					해당 열 0으로 초기화;
+				해당 열 확인행 체크;
+			}
+		}
+
+		EssentialPI에 해당 주항 저장;
+	}
