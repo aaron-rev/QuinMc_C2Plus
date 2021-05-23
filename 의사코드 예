@@ -52,7 +52,7 @@ AND게이트 트랜지스터 개수를 구하는 함수(EssentialPI의 개수, E
 {
 	for(확인행의 모든 요소를 확인함)
 	{
-		if(확인행의 요소 중 1이 아닌 요소가 있음)
+		if(확인행의 요소 중 1이 아닌 값이 )
 			return false
 	}
 	return true
