@@ -1,0 +1,51 @@
+int main()
+{
+	column1:칼럼 저장할 배열 선언;
+	column2:칼럼 저장할 배열 선언;
+	Prime_Implicant:주항 저장할 배열 선언;
+	usage:칼럼 체킹할 배열 선언
+	true_minterm:TrueMinterm 저장할 배열 선언;
+
+
+	파일 열기("input_minterm.txt");
+	if (파일이 안열리면) {
+		"false" 출력;
+		프로그램 종료;
+	}
+	while (파일을 끝까지 읽을 때 까지)
+	{
+		한 줄 읽기;
+		if (true minterm인 경우) {
+			column1에 저장;
+			true_minterm에 저장;
+		}
+		else if (Don't Care인 경우)
+			column1에 저장;
+	}
+	파일 닫기;
+	while (1)
+	{
+		if (짝수번 칼럼 일 경우)
+		{
+			column2에 칼럼 저장하는 함수(column2, column1, usage);
+			Prime_Implicnat에 주항 판별 후 저장;
+			if (칼럼이 더 이상 생성이 안될 경우) break; 
+			column1 초기화;
+		}
+		else if(홀수번 칼럼 일 경우)
+		{
+			column1에 칼럼 저장하는 함수(column1, column2, usage);
+			Prime_Implicnat에 주항 판별 후 저장;
+			if (칼럼이 더 이상 생성이 안될 경우) break;
+			column2 초기화;
+		}
+	}
+	if (마지막 칼럼이 짝수 번 일 경우)
+		Prime_Implicant에 column2 저장
+	else if (마지막 칼럼이 홀수 번 일 경우)
+		Prime_Implicant에 column1 저장
+
+	EssentialPI : Essential Prime Implicant 저장할 배열 선언;
+	PITable:커버 확인행을 포함한 PITable 2차원 배열 선언;
+	PITable을 0으로 초기화;
+	minterm을 커버하는 Prime Implicant를 PITable에 1로 마킹;
