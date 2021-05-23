@@ -7,8 +7,8 @@
 
 using namespace std;
 
-int MakeColumn(string*, string*, int*);
-void CopyPrime(string*, string*, int*, int*); //usage를 세야 해서 int가 하나 더 들어감
+int MakeColumn(string*, string*, int*);		//다음 칼럼 생성 함수
+void CopyPrime(string*, string*, int*, int*); 
 void reset(string*);
 bool CheckFinish(string*);
 bool CheckSame(string*, string*, int, int);
@@ -26,7 +26,7 @@ int main()
 	string line;
 	string* column = new string[1000]; //홀수번 칼럼
 	string* column2 = new string[1000]; //짝수번 칼럼
-	string* prime = new string[1000];
+	string* prime = new string[1000]; //Prime Implicant 배열
 	int* usage = new int[1000]; //column의 각 행의 사용횟수를 측정. 0인 행은 prime implicant로 옮겨주면 됨.
 	string* true_minterm = new string[1000];
 	int c_row = 0, t_row = 0;
@@ -37,26 +37,29 @@ int main()
 	string* EssentialPI = nullptr;
 
 	ifstream fin("input_minterm.txt");
-	if (!fin.is_open())
+	if (!fin.is_open())			//파일 열기 실패 시, 에러문 출력하고 프로그램 종료
+	{
 		cout << "false" << endl;
+		return;
+	}
 	while (!fin.eof())
 	{
 		getline(fin, line);
-		if (line[0] == 'm')
+		if (line[0] == 'm')				//True Minterm 읽어서 저장
 		{
 			column[c_row] = line.substr(2);
 			true_minterm[t_row] = line.substr(2);
 			t_row++;
 			c_row++;
 		}
-		else if (line[0] == 'd')
+		else if (line[0] == 'd')			//Don't Care 읽어서 
 		{
 			column[c_row] = line.substr(2);
 			c_row++;
 		}
 	}
 	fin.close();
-	cout << "column" << endl;
+	cout << "column" << endl;				//칼럼1 출력
 	for (int i = 0; column[i].empty() != true; i++)
 		cout << column[i] << endl;
 	cout << endl;
@@ -64,7 +67,7 @@ int main()
 	int p = 0; //prime implicant 갯수
 	while (1)
 	{
-		if (ColumnNum % 2 == 0)
+		if (ColumnNum % 2 == 0)					// 짝수번 칼럼 출력 
 		{
 			MakeColumn(column2, column, usage);
 			CopyPrime(prime, column, usage, &p);
@@ -72,7 +75,7 @@ int main()
 			reset(column);
 			ColumnNum++;
 		}
-		else
+		else							// 홀수번 칼럼 출력
 		{
 			MakeColumn(column, column2, usage);
 			CopyPrime(prime, column2, usage, &p);
@@ -125,7 +128,7 @@ int main()
 		for (int j = 0; j < TMCount; j++)
 		{
 			int count = 0;
-			for (unsigned int k = 0; k < PIColumn[i].length(); k++) //그냥 int로 선언해도 컴파일은 되지만 error c4018이 떠서 고쳐놓음. 381열, 406열도 마찬가지
+			for (unsigned int k = 0; k < PIColumn[i].length(); k++)
 			{
 				if (PIColumn[i][k] == TMRow[j][k]) count++;
 				else if (PIColumn[i][k] == '-') count++;
@@ -133,12 +136,11 @@ int main()
 			if (count == PIColumn[i].length()) PITable[i][j] = 1;
 		}
 	}
-
-	int CoverCount = 0;
-	for (int i = 0; i < TMCount; i++)
+       /*PITable에 1이 한개인 열은 해당 PI를 EPI에 저장하고 해당 열 0으로 초기화*/ 
+	for (int i = 0; i < TMCount; i++)	//1이 한개인 열 찾기
 	{
 		int PIRowIdx, PIColumnIdx;
-		int OneCount = 0;
+		int OneCount = 0;		//1의 수 체크하는 변수
 		for (int j = 0; j < PICount; j++)
 		{
 			if (PITable[j][i] == 1)
@@ -149,8 +151,7 @@ int main()
 			}
 		}
 
-		/* 1이 하나만 있고 확인용 행에 1이 표기가 안 된 경우 : 그 행에 대항하는 PI를 EPI에 저장하고 확인용행에 1 표기*/
-		if (OneCount == 1 && PITable[PICount][i] != 1)
+		if (OneCount == 1 && PITable[PICount][i] != 1)		//1이 한개고 PIT 확인행에 체크가 안된 경우
 		{
 			EssentialPI[EssentialPICount++] = PIColumn[PIRowIdx];
 			for (int k = 0; k < TMCount; k++)
@@ -158,10 +159,9 @@ int main()
 				/* 행 확인해서 1 적혀있으면 확인행에 1 표시 */
 				if (PITable[PIRowIdx][k] == 1)
 				{
-					for (int w = 0; w < PICount; w++)
+					for (int w = 0; w < PICount; w++)	//열 초기화
 						PITable[w][k] = 0;
 					PITable[PICount][k] = 1;
-					CoverCount++;
 				}
 			}
 		}
@@ -172,19 +172,19 @@ int main()
 	cout << endl;
 	while (1)
 	{
-		if (CheckBreak(PITable, PICount, TMCount) == true)break;
-		int MaxOne = 0;
-		int MaxIndex = 0;
-		int Count_1;
-		for (int i = 0; i < PICount; i++)
+		if (CheckBreak(PITable, PICount, TMCount) == true)break;	//PIT 확인행 전부 체크시 반복문 탈출
+		int MaxOne = 0;  	//가장 많은 1의 갯수 저장
+		int MaxIndex = 0;	// MaxOne 해당 행 Index 저장
+		int Count_1; 		//1의 갯수 저장
+		for (int i = 0; i < PICount; i++)	//PIT확인행 체크된 열 초기화 후 남은 열 중 비교
 		{
 			Count_1 = 0;
 			for (int j = 0; j < TMCount; j++)
 			{
-				if (PITable[i][j] == 1)
+				if (PITable[i][j] == 1)   //1의 갯수 체크
 					Count_1++;
 			}
-			if (Count_1 > MaxOne)
+			if (Count_1 > MaxOne)		//가장 많은 1의 갯수 체크
 			{
 				MaxOne = Count_1;
 				MaxIndex = i;
@@ -194,13 +194,13 @@ int main()
 		{
 			if (PITable[MaxIndex][i] == 1)
 			{
-				for (int w = 0; w < PICount; w++)
+				for (int w = 0; w < PICount; w++)  //확인행 체크 될 열 
 					PITable[w][i] = 0;
 				PITable[PICount][i] = 1;
 			}
 		}
 
-		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];
+		EssentialPI[EssentialPICount++] = PIColumn[MaxIndex];// 확인행에 가장 많이 체크되는 PI를 EPI에 저장
 	}
 
 	for (int i = 0; i < EssentialPICount; i++)
@@ -274,7 +274,7 @@ bool CheckSame(string* column2, string* column, int line, int row) // 중복 확
 	return true;
 }
 
-int MakeColumn(string* column2, string* column, int* usage)
+int MakeColumn(string* column2, string* column, int* usage)       //다음 칼럼 생성 함수
 {
 	int u = 0;
 	int i, j;
@@ -283,7 +283,7 @@ int MakeColumn(string* column2, string* column, int* usage)
 	for (i = 0; column[i].empty() != true; i++)
 	{
 		int index = 0;
-		for (j = 1; column[j + i].empty() != true; j++)
+		for (j = 1; column[j + i].empty() != true; j++)		//행끼리 비교하여 Hamming Distance = 1인 경우 체크
 		{
 			int hamm = 0; //=Hamming Distance
 			int w = 0;
@@ -294,14 +294,15 @@ int MakeColumn(string* column2, string* column, int* usage)
 					hamm++;
 					index = w;
 				}
-				if (hamm > 1)
+				if (hamm > 1)	//Hamming Distance != 1 이면 
 					break;
 			}
-			if (hamm == 1) //이 경우 비교한 두 열에서 차이 나는 곳만 '-'로 바꿔서 다음 column으로 넘어감
+			if (hamm == 1) //Hamming Distance = 1인 경우 해당 index '-' 변환 후 다음 칼럼에 저장
 			{
 				char ch = column[i][index];
 				column[i][index] = '-';
-				if (CheckSame(column2, column, i, u) == true) { //다를 때만 복사함.
+				if (CheckSame(column2, column, i, u) == true) // 중복 예외 처리
+				{
 					column2[u] = column[i];
 					u++;
 				}
@@ -387,7 +388,7 @@ int CheckAnd(int EssentialPICount, string* EssentialPI)
 
 /*****************************************************************************************
 	NOT 게이트 트랜지스터 개수 구하는 함수
-	각 EPI 자릿수에 0이 사용되었는지 확인한 후
+	각 EPI 자릿수에 0이 사용되었는지 확인한 수 
 	사용된 자릿수의 개수 * 2를 리턴
 ******************************************************************************************/
 int CheckNot(int EssentialPICount, string* EssentialPI)
@@ -417,7 +418,7 @@ int CheckNot(int EssentialPICount, string* EssentialPI)
 	return NCount * 2;  // 트랜지스터의 개수를 계산하여 리턴 
 }
 
-bool CheckBreak(int** PIT, int CheckPI, int n)
+bool CheckBreak(int** PIT, int CheckPI, int n)	//EPI 저장할때 무한반복문 탈출 
 {
 	for (int i = 0; i < n; i++)
 	{
