@@ -3,8 +3,11 @@ Prime implicant 복사 함수(prime implicant를 저장할 배열, prime implica
 	for(prime implicant를 찾을 열의 모든 요소를 확인)
 	{
 		if(한 번도 비교된 적이 없는 요소 존재)
+		{
+
 			prime[prime implicant 개수] <- 한 번도 비교된 적이 없는 요소
 			prime implicant 개수 1 증가
+		}
 	}
 }
 
