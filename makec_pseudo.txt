@@ -1,0 +1,39 @@
+int MakeColumn(string* column2, string* column, int* usage)
+{
+	int u = 0;
+	int i, j;
+	for (i = 0; column[i]가 비어있지 않음; i++)	
+    i번째 열을 체크함
+	for (i = 0; column[i]가 비어있지 않음; i++)
+	{
+		int index = 0;
+		for (j = 1; column[j + i]가 비어있지 않음= true; j++)
+		{
+			hamming distance = 0
+			int w = 0;
+			for (w = 0; column[i][w]가 빈 칸이 아님; w++)
+			{
+				if 두 비교대상의 왼쪽에서 w번째 자리가 다르면 then
+				{
+					hamming distance를 셈
+					index = w;
+				}
+				if hamming distance가 1을 넘으면 then
+					break;
+			}
+			if hamming distance가 1이면 then
+			{
+				char ch = column[i][index];
+				if column[i]가 중복이 아니면 됨	 {
+					column[i][index] = '-';
+					column[i]를 column2로 옮김
+					u++;
+				}
+				i번째 열과 (i+j)번째 열을 체크함
+				column[i][index] = ch;
+			}
+		}
+	}
+	함수 종료
+}
+}
