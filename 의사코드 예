@@ -10,3 +10,40 @@
 
 	return A + O + N
 }
+
+AND게이트 트랜지스터 개수를 구하는 함수(EssentialPI의 개수, EssentialPI 목록)
+{
+	ACount : '0'과 '1'의 개수를 저장할 변수
+	ACount <- 0으로 초기화
+
+	Acount 변수 <- 전체 EPI의 '0'과 '1'의 개수
+	
+	AND 게이트 트랜지스터의 개수 <- ACount * 2 + EssentialPI의 개수 * 2
+
+	return AND 게이트 트랜지스터 개수
+}
+
+인버터 트랜지스터 개수를 구하는 함수(EssentialPI의 개수, EssentialPI 목록)
+{
+	NCount : 체크된 자리 개수를 저장할 변수
+	NCount <- 0으로 초기화
+	
+	CheckNot : '0'이 사용된 자리 위치를 나타낼 int형 배열을 비트수만큼 동적할당
+	CheckNot <- 배열을 0으로 초기화
+
+	for(모든 EssentialPI를 확인함)
+	{
+		for(각 EssentialPI의 모든 요소를 확인함)
+		{
+			if(EssentialPI의 요소에 '0'이 있음)
+			{
+				그 요소가 있는 위치를 나타내는 CheckNot 배열 요소 <- 1
+			}	
+		} 
+	}
+	
+	NCount <- 모든 CheckNot 배열 요소의 합
+	인버터 트랜지스터 개수 <- 2 * NCount
+
+	return 인버터 트랜지스터 개수
+}
