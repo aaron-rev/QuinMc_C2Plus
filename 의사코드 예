@@ -1,10 +1,19 @@
+마지막 column을 prime배열로 옮기는 함수(마지막 column, prime 배열, prime implicant 개수)
+{
+	for(column의 모든 요소에 대해 시행)
+	{
+		prime[prime implicant 개수] <- column 요소
+		prime implicant 개수 1 증가
+	}
+}
+
 행에 있는 1의 개수 세는 함수(1의 개수를 셀 행, 행의 요소 개수)
 {
 	count : 행의 1 개수를 저장할 함수
 	count <- 0으로 초기화
 	
 	for(행의 모든 요소를 확인함)
-		if(행의 요소 중 1이 존재) count <- count + 1
+		if(행의 요소 중 1이 존재) count 1 증가
 
 	return count
 }
