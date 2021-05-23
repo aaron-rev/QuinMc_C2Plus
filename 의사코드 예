@@ -1,4 +1,4 @@
-Primeimplicant 복사 함수(prime implicant를 저장할 배열, prime implicant를 찾을 열, 사용 횟수 측정 배열, prime implicant 개수) 
+Prime implicant 복사 함수(prime implicant를 저장할 배열, prime implicant를 찾을 열, 사용 횟수 측정 배열, prime implicant 개수) 
 {
 	for(prime implicant를 찾을 열의 모든 요소를 확인)
 	{
