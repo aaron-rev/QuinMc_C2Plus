@@ -1,3 +1,13 @@
+중복 확인 함수(비교할 열2, 비교할 열1, 열1의 요소 지시 변수, 열의 요소 개수)
+{
+	for( 열2의 모든 요소 확인 )
+	{
+		if(열2의 요소와 열1의 요소가 동일한 경우 존재)
+			return false
+	}
+	return true
+}
+
 Prime implicant 복사 함수(prime implicant를 저장할 배열, prime implicant를 찾을 열, 사용 횟수 측정 배열, prime implicant 개수) 
 {
 	for(prime implicant를 찾을 열의 모든 요소를 확인)
