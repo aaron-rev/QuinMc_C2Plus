@@ -127,3 +127,18 @@ int main()
 
 		EssentialPI에 해당 주항 저장;
 	}
+	
+writeResult : ofstream 개방
+값을 출력할 "result.txt" 파일 오픈
+temp : 값들을 한꺼번에 출력하기 위한 string
+
+for(EssentialPICount 배열에 저장된 모든 배열 요소에 대해 작용)
+	temp += EssentialPI 배열 요소 + '\n'
+temp += "트랜지스터 개수 출력 안내 메세지"
+
+result.txt <<  temp에 모아놨던 값
+result.txt << 트랜지스터 개수
+
+파일 폐쇄
+
+지금까지 동적할당 했던 메모리들 모두 해제
