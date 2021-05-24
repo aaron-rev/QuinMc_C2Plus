@@ -300,9 +300,9 @@ int MakeColumn(string* column2, string* column, int* usage)       //다음 칼�
 			if (hamm == 1) //Hamming Distance = 1인 경우 해당 index '-' 변환 후 다음 칼럼에 저장
 			{
 				char ch = column[i][index];
+				column[i][index] = '-';
 				if (CheckSame(column2, column, i, u) == true) // 중복 예외 처리
 				{
-					column[i][index] = '-';
 					column2[u] = column[i];
 					u++;
 				}
