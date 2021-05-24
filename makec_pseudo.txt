@@ -37,3 +37,21 @@ int MakeColumn(string* column2, string* column, int* usage)
 	함수 종료
 }
 }
+
+
+column의 일부를 PI로 옮기는 함수(prime, column2, usage, 현재 prime 배열의 줄 수) {
+	for (칼럼의 마지막 열까지) {
+		if (usage == 0)
+			해당 열을 prime배열로 옮김
+	}
+}
+
+column을 지우는 함수(column)
+	for (칼럼의 마지막 열까지)
+		해당 열을 지움
+}
+
+마지막 column을 PI로 옮기는 함수(column, prime, 현재 prime 배열의 줄 수) {
+	for (칼럼의 마지막 열까지)
+		prime배열로 옮김
+}
