@@ -8,6 +8,28 @@
 	return true
 }
 
+bool 칼럼 생성 끝을 판별하는 함수(column:마지막 칼럼 배열) // 마지막 칼럼 확인 함수
+{
+	for (i=0;i<칼럼 갯수;i++)
+	{
+		for (j=1;j+i<칼럼 갯수;j++)
+		{
+			Hamming distance 변수 0 초기화;
+			for (w<칼럼 비트 수)
+			{
+				if (두 칼럼 비트가 다른 경우)
+					Hamming distance++;
+				if (Hamming distance > 1)
+					break;
+			}
+			if (Hammingdistance가 1인 칼럼이 있는 경우)
+				끝이 아니므로 false 반환;
+				
+		}
+	}
+	Hamming distance가 1인 칼럼이 없으므로 true 반환
+}
+
 Prime implicant 복사 함수(prime implicant를 저장할 배열, prime implicant를 찾을 열, 사용 횟수 측정 배열, prime implicant 개수) 
 {
 	for(prime implicant를 찾을 열의 모든 요소를 확인)
