@@ -40,7 +40,7 @@ int main()
 	if (!fin.is_open())			//파일 열기 실패 시, 에러문 출력하고 프로그램 종료
 	{
 		cout << "false" << endl;
-		return;
+		return 1;
 	}
 	while (!fin.eof())
 	{
