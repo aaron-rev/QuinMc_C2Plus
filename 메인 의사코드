@@ -129,7 +129,7 @@ int main()
 	}
 	
 writeResult : ofstream 개방
-값을 출력할 "result.txt" 파일 오픈
+"result.txt" : 값을 출력할 파일 오픈
 temp : 값들을 한꺼번에 출력하기 위한 string
 
 for(EssentialPICount 배열에 저장된 모든 배열 요소에 대해 작용)
